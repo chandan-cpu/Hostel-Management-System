@@ -1,3 +1,7 @@
+import image01 from '../assets/hostelImages/image01.jpg';
+import image02 from '../assets/hostelImages/image02.jpg';
+import image03 from '../assets/hostelImages/image03.jpg';
+
 export const SLIDES = [
   {
     gradient: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
@@ -5,7 +9,9 @@ export const SLIDES = [
     title: 'Welcome to Modern Hostel Living',
     subtitle: 'Your home away from home with world-class facilities',
     buttonText: 'Explore Features',
-    buttonLink: 'features'
+    buttonLink: 'features',
+    image: image01,
+    imageAlt: 'Welcome to Modern Hostel Living'
   },
   {
     gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
@@ -13,7 +19,9 @@ export const SLIDES = [
     title: 'Comfortable Rooms & Amenities',
     subtitle: 'Experience premium comfort with modern amenities',
     buttonText: 'View Gallery',
-    buttonLink: 'gallery'
+    buttonLink: 'gallery',
+    image: image02,
+    imageAlt: 'Comfortable Rooms and Amenities'
   },
   {
     gradient: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
@@ -21,7 +29,9 @@ export const SLIDES = [
     title: 'Community & Support',
     subtitle: 'Join a vibrant community with 24/7 support',
     buttonText: 'Read Reviews',
-    buttonLink: 'testimonials'
+    buttonLink: 'testimonials',
+    image: image03,
+    imageAlt: 'Community and Support'
   }
 ];
 

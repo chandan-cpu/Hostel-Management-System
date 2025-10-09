@@ -21,17 +21,23 @@ const Carousel = ({ scrollToSection }) => {
     <div className="carousel-container" id="home">
       {SLIDES.map((slide, index) => (
         <div key={index} className={`carousel-slide ${index === currentSlide ? 'active' : ''}`}>
-          <div 
+          <div
             className="carousel-background"
-            style={{ background: slide.gradient }}
+            style={{
+              backgroundImage: slide.image ? `url('${slide.image}')` : slide.gradient,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center'
+            }}
           >
             <div className="carousel-icon">{slide.icon}</div>
           </div>
+
           <div className="carousel-overlay">
             <div className="carousel-content">
+              {/* inline image removed - using background image only */}
               <h1>{slide.title}</h1>
               <p>{slide.subtitle}</p>
-              <button 
+              <button
                 className="cta-button"
                 onClick={() => scrollToSection(slide.buttonLink)}
               >

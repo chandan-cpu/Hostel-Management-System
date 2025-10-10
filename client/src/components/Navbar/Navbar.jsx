@@ -28,6 +28,11 @@ const Navbar = ({ scrollToSection }) => {
             </a>
           </li>
           <li>
+            <a href="#hostels" onClick={(e) => { e.preventDefault(); scrollToSection('hostels'); }}>
+              Hostels
+            </a>
+          </li>
+          <li>
             <a href="#testimonials" onClick={(e) => { e.preventDefault(); scrollToSection('testimonials'); }}>
               Testimonials
             </a>

@@ -1,3 +1,7 @@
+import image01 from '../assets/hostelImages/image01.jpg';
+import image02 from '../assets/hostelImages/image02.jpg';
+import image03 from '../assets/hostelImages/image03.jpg';
+
 export const SLIDES = [
   {
     gradient: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
@@ -5,7 +9,9 @@ export const SLIDES = [
     title: 'Welcome to Modern Hostel Living',
     subtitle: 'Your home away from home with world-class facilities',
     buttonText: 'Explore Features',
-    buttonLink: 'features'
+    buttonLink: 'features',
+    image: image01,
+    imageAlt: 'Welcome to Modern Hostel Living'
   },
   {
     gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
@@ -13,7 +19,9 @@ export const SLIDES = [
     title: 'Comfortable Rooms & Amenities',
     subtitle: 'Experience premium comfort with modern amenities',
     buttonText: 'View Gallery',
-    buttonLink: 'gallery'
+    buttonLink: 'gallery',
+    image: image02,
+    imageAlt: 'Comfortable Rooms and Amenities'
   },
   {
     gradient: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
@@ -21,7 +29,9 @@ export const SLIDES = [
     title: 'Community & Support',
     subtitle: 'Join a vibrant community with 24/7 support',
     buttonText: 'Read Reviews',
-    buttonLink: 'testimonials'
+    buttonLink: 'testimonials',
+    image: image03,
+    imageAlt: 'Community and Support'
   }
 ];
 
@@ -96,6 +106,67 @@ export const GALLERY_ITEMS = [
     description: 'Safe vehicle parking'
   }
 ];
+
+ export const HOSTELS_DATA = {
+  girls: [
+    {
+      id: 1,
+      name: "Saraswati Girls Hostel",
+      image: "https://images.unsplash.com/photo-1555854876-c77ea81c9b10?w=500&auto=format&fit=crop&q=60",
+      description: "Premium accommodation with 24/7 security and modern amenities",
+      facilities: ["WiFi", "Laundry", "Study Room", "Dining Hall"],
+      rating: 4.8,
+      rooms: "Single, Double, Triple"
+    },
+    {
+      id: 2,
+      name: "Lakshmi Girls Hostel",
+      image: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=500&auto=format&fit=crop&q=60",
+      description: "Comfortable living with homely environment and caring staff",
+      facilities: ["WiFi", "Gym", "Common Room", "Parking"],
+      rating: 4.6,
+      rooms: "Double, Triple"
+    },
+    {
+      id: 3,
+      name: "Gargi Girls Hostel",
+      image: "https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=500&auto=format&fit=crop&q=60",
+      description: "Modern facilities with focus on safety and comfort",
+      facilities: ["WiFi", "Library", "CCTV", "Medical Room"],
+      rating: 4.7,
+      rooms: "Single, Double"
+    }
+  ],
+  boys: [
+    {
+      id: 1,
+      name: "Vivekananda Boys Hostel",
+      image: "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=500&auto=format&fit=crop&q=60",
+      description: "Spacious rooms with sports facilities and study environment",
+      facilities: ["WiFi", "Sports", "Study Room", "Cafeteria"],
+      rating: 4.5,
+      rooms: "Single, Double, Triple, Dormitory"
+    },
+    {
+      id: 2,
+      name: "Tagore Boys Hostel",
+      image: "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?w=500&auto=format&fit=crop&q=60",
+      description: "Affordable accommodation with all essential facilities",
+      facilities: ["WiFi", "Common Room", "Parking", "Dining"],
+      rating: 4.3,
+      rooms: "Double, Triple, Dormitory"
+    },
+    {
+      id: 3,
+      name: "Aryabhatta Boys Hostel",
+      image: "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?w=500&auto=format&fit=crop&q=60",
+      description: "Modern infrastructure with tech-friendly environment",
+      facilities: ["WiFi", "Gym", "Library", "Computer Lab"],
+      rating: 4.6,
+      rooms: "Single, Double"
+    }
+  ]
+};
 
 export const TESTIMONIALS = [
   {

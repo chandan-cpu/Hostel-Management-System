@@ -4,6 +4,7 @@ import Navbar from './components/Navbar/Navbar';
 import Carousel from './components/Carousel/Carousel';
 import Features from './components/features/features';
 import Gallery from './components/Gallery/Gallery';
+import Hostels from './components/Hostels/hostels';
 import Testimonials from './components/Testimonials/Testimonials';
 import Footer from './components/footer/footer';
 import './App.css';
@@ -21,11 +22,11 @@ const App = () => {
       <Navbar scrollToSection={scrollToSection} />
       <Carousel scrollToSection={scrollToSection} />
       <Features />
+      <Hostels />
       <Gallery />
       <Testimonials />
       <Footer />
     </div>
   );
 };
-
 export default App;

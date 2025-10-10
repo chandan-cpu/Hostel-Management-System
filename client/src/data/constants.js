@@ -120,3 +120,38 @@ export const TESTIMONIALS = [
     rating: 5
   }
 ];
+
+
+// Image URLs for Gallery
+export const GALLERY_IMAGES = {
+  'Deluxe Rooms': [
+    'https://content.jdmagicbox.com/comp/kanpur/p9/0512px512.x512.160602172259.s9p9/catalogue/shri-g-boys-hostel-and-pg-kaka-deo-kanpur-paying-guest-accommodations-for-men-1adekpdjzn.jpg',
+    'https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=500',
+    'https://i.redd.it/4rwoqd3fd0jd1.jpeg'
+  ],
+  'Dining Area': [
+    'https://hbtu.ac.in/wp-content/uploads/2024/11/canteen.jpg',
+    'https://images.unsplash.com/photo-1559329007-40df8a9345d8?w=500',
+    'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=500'
+  ],
+  'Common Area': [
+    'https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?w=500',
+    'https://images.unsplash.com/photo-1555854876-c77ea81c9b10?w=500',
+    'https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?w=500'
+  ],
+  'Study Room': [
+    'https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=500',
+    'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500',
+    'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=500'
+  ],
+  'Fitness Center': [
+    'https://tripuratimes.com/ImagesForAll/IMG-20250407-WA0063.jpg',
+    'https://hbtu.ac.in/wp-content/uploads/2024/11/gym2.jpg',
+    'https://hbtu.ac.in/wp-content/uploads/2024/11/gym3.jpg'
+  ],
+  'Parking Area': [
+    'https://images.unsplash.com/photo-1551524164-6ca64fb04d4d?w=500',
+    'https://images.unsplash.com/photo-1547869850-c4275c5b889f?w=500',
+    'https://images.unsplash.com/photo-1577702318058-0cd623a1d459?w=500'
+  ]
+};

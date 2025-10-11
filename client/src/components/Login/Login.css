@@ -1,0 +1,416 @@
+/* Modal Overlay - Fixed Position */
+.login-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999; /* Very high z-index to stay above everything */
+    padding: 20px;
+    animation: modalFadeIn 0.3s ease-out forwards;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        backdrop-filter: blur(0px);
+    }
+    to {
+        opacity: 1;
+        backdrop-filter: blur(4px);
+    }
+}
+
+/* Modal Content */
+.login-modal-content {
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+    animation: containerSlideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    transform: translateY(20px) scale(0.95);
+}
+
+@keyframes containerSlideUp {
+    to {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+}
+
+/* Close Button */
+.modal-close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    color: #666;
+    cursor: pointer;
+    z-index: 10000; /* Above modal content */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.modal-close-btn:hover {
+    background: white;
+    color: #333;
+    transform: scale(1.1);
+}
+
+/* Modal Background Animation */
+.modal-bg-animation {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    border-radius: 24px;
+    overflow: hidden;
+}
+
+.modal-circle {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    animation: modalFloat 20s infinite ease-in-out;
+}
+
+.modal-circle:nth-child(1) {
+    width: 300px;
+    height: 300px;
+    top: -150px;
+    left: -150px;
+    animation-delay: 0s;
+}
+
+.modal-circle:nth-child(2) {
+    width: 200px;
+    height: 200px;
+    bottom: -100px;
+    right: -100px;
+    animation-delay: 4s;
+}
+
+.modal-circle:nth-child(3) {
+    width: 150px;
+    height: 150px;
+    top: 40%;
+    left: -75px;
+    animation-delay: 2s;
+}
+
+@keyframes modalFloat {
+    0%, 100% {
+        transform: translate(0, 0) scale(1);
+    }
+    33% {
+        transform: translate(30px, -30px) scale(1.1);
+    }
+    66% {
+        transform: translate(-20px, 20px) scale(0.9);
+    }
+}
+
+/* Modal Signup Card */
+.modal-signup-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 24px;
+    padding: 50px 40px;
+    width: 100%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: modalSlideUp 0.6s ease-out;
+    position: relative;
+}
+
+@keyframes modalSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Modal Logo */
+.modal-logo {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.modal-logo-icon {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    animation: modalPulse 2s infinite;
+}
+
+@keyframes modalPulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+.modal-logo-icon::before {
+    content: '✦';
+    color: white;
+    font-size: 24px;
+}
+
+.modal-signup-card h1 {
+    font-size: 28px;
+    color: #1a202c;
+    margin-bottom: 8px;
+    font-weight: 700;
+}
+
+.modal-subtitle {
+    color: #718096;
+    font-size: 15px;
+    margin-bottom: 32px;
+}
+
+/* Modal Form Styles */
+.modal-form-group {
+    margin-bottom: 20px;
+}
+
+.modal-form-group label {
+    display: block;
+    color: #4a5568;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.modal-form-group input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+.modal-form-group input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.modal-checkbox-group {
+    display: flex;
+    align-items: center;
+    margin: 24px 0;
+}
+
+.modal-checkbox-group input[type="checkbox"] {
+    width: auto;
+    margin-right: 8px;
+    cursor: pointer;
+}
+
+.modal-checkbox-group label {
+    margin: 0;
+    font-size: 14px;
+    color: #718096;
+    cursor: pointer;
+}
+
+.modal-checkbox-group a {
+    color: #667eea;
+    text-decoration: none;
+}
+
+.modal-checkbox-group a:hover {
+    text-decoration: underline;
+}
+
+.modal-submit-btn {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.modal-submit-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s;
+}
+
+.modal-submit-btn:hover::before {
+    left: 100%;
+}
+
+.modal-submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+}
+
+.modal-divider {
+    display: flex;
+    align-items: center;
+    margin: 28px 0;
+    color: #a0aec0;
+    font-size: 14px;
+}
+
+.modal-divider::before,
+.modal-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #e2e8f0;
+}
+
+.modal-divider span {
+    padding: 0 16px;
+}
+
+.modal-social-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 28px;
+}
+
+.modal-social-btn {
+    padding: 12px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    background: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #4a5568;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.modal-social-btn:hover {
+    border-color: #cbd5e0;
+    background: #f7fafc;
+    transform: translateY(-2px);
+}
+
+.modal-signin-link {
+    text-align: center;
+    margin-top: 24px;
+    color: #718096;
+    font-size: 14px;
+}
+
+.modal-signin-link a {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.modal-signin-link a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+    .login-modal-overlay {
+        padding: 15px;
+        align-items: flex-start;
+        padding-top: 60px;
+    }
+
+    .login-modal-content {
+        max-width: 100%;
+    }
+
+    .modal-signup-card {
+        padding: 40px 24px;
+    }
+
+    .modal-signup-card h1 {
+        font-size: 24px;
+    }
+
+    .modal-social-buttons {
+        grid-template-columns: 1fr;
+    }
+
+    .modal-close-btn {
+        top: 10px;
+        right: 10px;
+        width: 35px;
+        height: 35px;
+    }
+}
+
+@media (max-width: 320px) {
+    .modal-signup-card {
+        padding: 30px 20px;
+    }
+
+    .modal-signup-card h1 {
+        font-size: 22px;
+    }
+
+    .modal-form-group input {
+        padding: 12px 14px;
+    }
+
+    .modal-submit-btn {
+        padding: 14px;
+    }
+}
+
+/* Ensure perfect centering on all screens */
+@media (min-height: 600px) {
+    .login-modal-overlay {
+        align-items: center;
+        padding-top: 20px;
+    }
+}
+
+/* Prevent body scroll when modal is open */
+body.modal-open {
+    overflow: hidden;
+}

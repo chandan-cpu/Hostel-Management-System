@@ -1,9 +1,13 @@
 import React from 'react';
 import './Navbar.css';
 
-const Navbar = ({ scrollToSection }) => {
+const Navbar = ({ scrollToSection, onLoginClick, onAdminClick }) => {
+  const handleNavClick = (sectionId) => {
+    scrollToSection(sectionId);
+  };
+
   return (
-    <nav className="navbar h-18">
+    <nav className="navbar">
       <div className="nav-container">
         <div className="logo">
           <div className="logo-icon">
@@ -11,39 +15,25 @@ const Navbar = ({ scrollToSection }) => {
           </div>
           <span>HostelHub</span>
         </div>
+
         <ul className="nav-links">
-          <li>
-            <a href="#home" onClick={(e) => { e.preventDefault(); scrollToSection('home'); }}>
-              Home
-            </a>
-          </li>
-          <li>
-            <a href="#features" onClick={(e) => { e.preventDefault(); scrollToSection('features'); }}>
-              Features
-            </a>
-          </li>
-          <li>
-            <a href="#gallery" onClick={(e) => { e.preventDefault(); scrollToSection('gallery'); }}>
-              Gallery
-            </a>
-          </li>
-          <li>
-            <a href="#hostels" onClick={(e) => { e.preventDefault(); scrollToSection('hostels'); }}>
-              Hostels
-            </a>
-          </li>
-          <li>
-            <a href="#testimonials" onClick={(e) => { e.preventDefault(); scrollToSection('testimonials'); }}>
-              Testimonials
-            </a>
-          </li>
-          <li>
-            <a href="#contact" onClick={(e) => { e.preventDefault(); scrollToSection('contact'); }}>
-              Contact
-            </a>
-          </li>
+          <li><a href="#home" onClick={(e) => { e.preventDefault(); handleNavClick('home'); }}>Home</a></li>
+          <li><a href="#features" onClick={(e) => { e.preventDefault(); handleNavClick('features'); }}>Features</a></li>
+          <li><a href="#hostels" onClick={(e) => { e.preventDefault(); handleNavClick('hostels'); }}>Hostels</a></li>
+          <li><a href="#gallery" onClick={(e) => { e.preventDefault(); handleNavClick('gallery'); }}>Gallery</a></li>
+          <li><a href="#testimonials" onClick={(e) => { e.preventDefault(); handleNavClick('testimonials'); }}>Testimonials</a></li>
+          <li><a href="#contact" onClick={(e) => { e.preventDefault(); handleNavClick('contact'); }}>Contact</a></li>
         </ul>
-        <a href="#login" className="login-btn">Login</a>
+
+        <div className="nav-actions">
+          <button className="admin-btn" onClick={onAdminClick} title="Admin Panel">
+            <span className="admin-icon">👨‍💼</span>
+            <span className="admin-text">Admin</span>
+          </button>
+          <button className="login-btn" onClick={onLoginClick}>
+            Login
+          </button>
+        </div>
       </div>
     </nav>
   );

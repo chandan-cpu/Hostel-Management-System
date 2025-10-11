@@ -1,9 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Hostels.css';
 import { HOSTELS_DATA } from '../../data/constants';
 
-const Hostels = () => {
-  const [activeTab, setActiveTab] = useState('girls');
+const Hostels = ({ defaultTab }) => {
+  const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState(defaultTab || 'girls');
+
+  useEffect(() => {
+    if (defaultTab) setActiveTab(defaultTab);
+  }, [defaultTab]);
   const [selectedHostel, setSelectedHostel] = useState(null);
 
   const openModal = (hostel) => {
@@ -19,19 +25,19 @@ const Hostels = () => {
       <div className="hostels-container">
         <h2 className="section-title">Our Hostels</h2>
         <p className="section-subtitle">Safe and comfortable accommodation for all students</p>
-        
+
         {/* Tab Navigation */}
         <div className="hostel-tabs">
-          <button 
+          <button
             className={`tab-btn ${activeTab === 'girls' ? 'active' : ''}`}
-            onClick={() => setActiveTab('girls')}
+            onClick={() => navigate('/hostels/girls')}
           >
             <span className="tab-icon">👩‍🎓</span>
             Girls Hostels
           </button>
-          <button 
+          <button
             className={`tab-btn ${activeTab === 'boys' ? 'active' : ''}`}
-            onClick={() => setActiveTab('boys')}
+            onClick={() => navigate('/hostels/boys')}
           >
             <span className="tab-icon">👨‍🎓</span>
             Boys Hostels
@@ -39,7 +45,7 @@ const Hostels = () => {
         </div>
 
         {/* Hostels Grid */}
-        <div className="hostels-grid">
+        {/* <div className="hostels-grid">
           {HOSTELS_DATA[activeTab].map((hostel) => (
             <div key={hostel.id} className="hostel-card" onClick={() => openModal(hostel)}>
               <div className="hostel-image">
@@ -71,59 +77,8 @@ const Hostels = () => {
               </div>
             </div>
           ))}
-        </div>
+        </div> */}
       </div>
-
-      {/* Hostel Detail Modal */}
-      {selectedHostel && (
-        <div className="hostel-modal" onClick={closeModal}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <button className="close-btn" onClick={closeModal}>×</button>
-            
-            <div className="modal-image">
-              <img src={selectedHostel.image} alt={selectedHostel.name} />
-            </div>
-            
-            <div className="modal-details">
-              <div className="modal-header">
-                <h3>{selectedHostel.name}</h3>
-                <div className="hostel-rating large">
-                  <span className="star">⭐</span>
-                  {selectedHostel.rating}
-                </div>
-              </div>
-              
-              <p className="modal-description">{selectedHostel.description}</p>
-              
-              <div className="modal-section">
-                <h4>Available Room Types</h4>
-                <div className="rooms-list">
-                  {selectedHostel.rooms.split(', ').map((room, index) => (
-                    <span key={index} className="room-type">{room}</span>
-                  ))}
-                </div>
-              </div>
-              
-              <div className="modal-section">
-                <h4>Facilities</h4>
-                <div className="facilities-grid">
-                  {selectedHostel.facilities.map((facility, index) => (
-                    <div key={index} className="facility-item">
-                      <span className="facility-icon">✓</span>
-                      {facility}
-                    </div>
-                  ))}
-                </div>
-              </div>
-              
-              <div className="modal-actions">
-                <button className="book-now-btn">Book Now</button>
-                <button className="contact-btn">Contact Warden</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </section>
   );
 };

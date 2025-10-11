@@ -98,6 +98,7 @@
   align-items: center;
   gap: 5px;
   backdrop-filter: blur(10px);
+  color: grey
 }
 
 .hostel-rating.large {
@@ -292,6 +293,7 @@
 }
 
 .facility-item {
+  color: black;
   display: flex;
   align-items: center;
   gap: 10px;

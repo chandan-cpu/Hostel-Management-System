@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+/* Base styles for proper dark mode */
+html, body {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Debug indicator for theme */
+html.dark::after {
+  content: "🌙 DARK MODE ACTIVE";
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  background: #ef4444;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+html:not(.dark)::after {
+  content: "☀️ LIGHT MODE ACTIVE";
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  background: #10b981;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  z-index: 9999;
+  pointer-events: none;
+}

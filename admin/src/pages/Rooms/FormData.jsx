@@ -105,7 +105,7 @@ export const FormData = ({ onClose }) => {
     return (
         <div>
             (
-            <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">{/* Modal code here */}
+            <div className="fixed inset-0 backdrop-blur-sm bg-white/30  flex items-center justify-center z-50">{/* Modal code here */}
                 <div className="bg-white rounded-2xl p-6 w-96 shadow-xl relative">
                     <button onClick={() => typeof onClose === 'function' && onClose()} className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"><X className="h-5 w-5" /></button>
                     <h2 className="text-xl font-bold mb-4">Add New Room</h2>

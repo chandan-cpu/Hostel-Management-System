@@ -1,90 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { BookingForm } from './booking/BookingForm';
 import { Calendar, Clock, User, Mail, Phone, Plus, Search, X, CheckCircle, XCircle } from 'lucide-react';
+import axios from '../axios';
 
 const Bookings = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
   const [showAddModal, setShowAddModal] = useState(false);
-  const [formData, setFormData] = useState({
-    studentName: '',
-    email: '',
-    phone: '',
-    roomPreference: '',
-    checkInDate: '',
-    duration: '',
-    specialRequests: ''
-  });
 
-  const [bookings, setBookings] = useState([
-    {
-      id: 1,
-      studentName: 'John Smith',
-      email: 'john.smith@university.edu',
-      phone: '+1 (555) 123-4567',
-      roomPreference: 'Single',
-      checkInDate: '2024-09-01',
-      duration: '1 Semester',
-      status: 'pending',
-      createdAt: '2024-08-15'
-    },
-    {
-      id: 2,
-      studentName: 'Sarah Johnson',
-      email: 'sarah.j@university.edu',
-      phone: '+1 (555) 234-5678',
-      roomPreference: 'Double',
-      checkInDate: '2024-09-05',
-      duration: '1 Year',
-      status: 'confirmed',
-      createdAt: '2024-08-10'
-    },
-    {
-      id: 3,
-      studentName: 'Michael Chen',
-      email: 'michael.c@university.edu',
-      phone: '+1 (555) 345-6789',
-      roomPreference: 'Single',
-      checkInDate: '2024-09-10',
-      duration: '1 Semester',
-      status: 'waitlisted',
-      createdAt: '2024-08-20'
-    },
-    {
-      id: 4,
-      studentName: 'Emily Davis',
-      email: 'emily.d@university.edu',
-      phone: '+1 (555) 456-7890',
-      roomPreference: 'Double',
-      checkInDate: '2024-09-03',
-      duration: '2 Semesters',
-      status: 'cancelled',
-      createdAt: '2024-08-12'
-    },
-    {
-      id: 5,
-      studentName: 'David Wilson',
-      email: 'david.w@university.edu',
-      phone: '+1 (555) 567-8901',
-      roomPreference: 'Triple',
-      checkInDate: '2024-09-15',
-      duration: '1 Year',
-      status: 'pending',
-      createdAt: '2024-08-18'
-    },
-    {
-      id: 6,
-      studentName: 'Lisa Anderson',
-      email: 'lisa.a@university.edu',
-      phone: '+1 (555) 678-9012',
-      roomPreference: 'Single',
-      checkInDate: '2024-09-08',
-      duration: '1 Semester',
-      status: 'confirmed',
-      createdAt: '2024-08-14'
+  const [bookings, setBookings] = useState([]);
+     const fetchBookings=async()=>{
+      const res= await axios.get("/booking-data")
+      console.log("Coming Data is :",res.data);
+      setBookings(res.data);
+      // console.log("Bookings:",bookings.map(booking => booking.id));
     }
-  ]);
+  useEffect(()=>{
+    //fetch booking data from backen
+    fetchBookings();
+  },[])
 
   const statusColors = {
     pending: 'bg-yellow-100 text-yellow-800 border-yellow-200',
@@ -142,19 +77,33 @@ const Bookings = () => {
     });
   };
 
-  const updateBookingStatus = (id, newStatus) => {
-    setBookings(bookings.map(booking => 
-      //same booking thakibo ako change nhoii
-      booking.id === id ? { ...booking, status: newStatus } : booking
-    ));
+  const updateBookingStatus = (booking, newStatus) => {
+    // console.log("Updating booking id:", booking?.id, "to status:", newStatus);
+    console.log("Id:", booking?._id);
+
+    // Update status in backend
+    axios.patch(`/booking-status/${booking?._id}`, { status: newStatus })
+    .then(response => {
+      console.log("Status updated:", response.data);
+      setBookings(bookings.map(b =>
+        //same booking thakibo ako change nhoii
+        b.id === booking?._id ? { ...b, status: newStatus } : b
+      ));
+      fetchBookings();
+    });
   };
 
+
+
+
+  console.log("booking Data", bookings?.id);
   const totalBookings = bookings.length;
   const pendingBookings = bookings.filter(b => b.status === 'pending').length;
   const confirmedBookings = bookings.filter(b => b.status === 'confirmed').length;
   const waitlistedBookings = bookings.filter(b => b.status === 'waitlisted').length;
 
   const BookingCard = ({ booking }) => (
+    
     <div className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 hover:scale-105 transform">
       <div className="bg-gradient-to-r from-purple-500 to-pink-600 p-6">
         <div className="flex justify-between items-start mb-3">
@@ -234,13 +183,15 @@ const Bookings = () => {
           <div className="flex gap-2">
             <button 
             //booking id come from booking card and backend id
-              onClick={() => updateBookingStatus(booking.id, 'confirmed')}
+              onClick={() => updateBookingStatus(booking, 'confirmed')
+                
+              }
               className="flex-1 bg-gradient-to-r from-green-600 to-emerald-600 text-white py-2 rounded-xl hover:from-green-700 hover:to-emerald-700 transition-all font-medium shadow-md hover:shadow-lg"
             >
               Approve
             </button>
             <button 
-              onClick={() => updateBookingStatus(booking.id, 'cancelled')}
+              onClick={() => updateBookingStatus(booking, 'cancelled')}
               className="flex-1 bg-gradient-to-r from-red-600 to-rose-600 text-white py-2 rounded-xl hover:from-red-700 hover:to-rose-700 transition-all font-medium shadow-md hover:shadow-lg"
             >
               Reject
@@ -352,7 +303,7 @@ const Bookings = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredBookings.map(booking => (
-            <BookingForm key={booking.id} booking={booking} />
+            <BookingCard key={booking.id} booking={booking} />
           ))}
         </div>
 

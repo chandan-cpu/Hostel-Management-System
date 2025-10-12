@@ -1,167 +1,371 @@
 import React, { useState } from 'react';
-import { Calendar, Clock, User, Mail, Phone, Plus, Search, Filter } from 'lucide-react';
-import { useData } from '../contexts/DataContext';
+
+import { BookingForm } from './booking/BookingForm';
+import { Calendar, Clock, User, Mail, Phone, Plus, Search, X, CheckCircle, XCircle } from 'lucide-react';
 
 const Bookings = () => {
-  const { data, updateBooking } = useData();
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [formData, setFormData] = useState({
+    studentName: '',
+    email: '',
+    phone: '',
+    roomPreference: '',
+    checkInDate: '',
+    duration: '',
+    specialRequests: ''
+  });
+
+  const [bookings, setBookings] = useState([
+    {
+      id: 1,
+      studentName: 'John Smith',
+      email: 'john.smith@university.edu',
+      phone: '+1 (555) 123-4567',
+      roomPreference: 'Single',
+      checkInDate: '2024-09-01',
+      duration: '1 Semester',
+      status: 'pending',
+      createdAt: '2024-08-15'
+    },
+    {
+      id: 2,
+      studentName: 'Sarah Johnson',
+      email: 'sarah.j@university.edu',
+      phone: '+1 (555) 234-5678',
+      roomPreference: 'Double',
+      checkInDate: '2024-09-05',
+      duration: '1 Year',
+      status: 'confirmed',
+      createdAt: '2024-08-10'
+    },
+    {
+      id: 3,
+      studentName: 'Michael Chen',
+      email: 'michael.c@university.edu',
+      phone: '+1 (555) 345-6789',
+      roomPreference: 'Single',
+      checkInDate: '2024-09-10',
+      duration: '1 Semester',
+      status: 'waitlisted',
+      createdAt: '2024-08-20'
+    },
+    {
+      id: 4,
+      studentName: 'Emily Davis',
+      email: 'emily.d@university.edu',
+      phone: '+1 (555) 456-7890',
+      roomPreference: 'Double',
+      checkInDate: '2024-09-03',
+      duration: '2 Semesters',
+      status: 'cancelled',
+      createdAt: '2024-08-12'
+    },
+    {
+      id: 5,
+      studentName: 'David Wilson',
+      email: 'david.w@university.edu',
+      phone: '+1 (555) 567-8901',
+      roomPreference: 'Triple',
+      checkInDate: '2024-09-15',
+      duration: '1 Year',
+      status: 'pending',
+      createdAt: '2024-08-18'
+    },
+    {
+      id: 6,
+      studentName: 'Lisa Anderson',
+      email: 'lisa.a@university.edu',
+      phone: '+1 (555) 678-9012',
+      roomPreference: 'Single',
+      checkInDate: '2024-09-08',
+      duration: '1 Semester',
+      status: 'confirmed',
+      createdAt: '2024-08-14'
+    }
+  ]);
 
   const statusColors = {
-    pending: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400',
-    confirmed: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400',
-    cancelled: 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400',
-    waitlisted: 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400'
+    pending: 'bg-yellow-100 text-yellow-800 border-yellow-200',
+    confirmed: 'bg-green-100 text-green-800 border-green-200',
+    cancelled: 'bg-red-100 text-red-800 border-red-200',
+    waitlisted: 'bg-blue-100 text-blue-800 border-blue-200'
   };
 
-  const filteredBookings = data.bookings.filter(booking => {
+  const statusIcons = {
+    pending: <Clock className="w-4 h-4" />,
+    confirmed: <CheckCircle className="w-4 h-4" />,
+    cancelled: <XCircle className="w-4 h-4" />,
+    waitlisted: <Calendar className="w-4 h-4" />
+  };
+
+  const filteredBookings = bookings.filter(booking => {
     const matchesSearch = booking.studentName.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          booking.email.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesFilter = filterStatus === 'all' || booking.status === filterStatus;
     return matchesSearch && matchesFilter;
   });
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = () => {
+    if (!formData.studentName || !formData.email || !formData.phone || 
+        !formData.roomPreference || !formData.checkInDate || !formData.duration) {
+      alert('Please fill all required fields');
+      return;
+    }
+
+    const newBooking = {
+      id: bookings.length + 1,
+      ...formData,
+      status: 'pending',
+      createdAt: new Date().toISOString().split('T')[0]
+    };
+
+    setBookings([newBooking, ...bookings]);
+    setShowAddModal(false);
+    setFormData({
+      studentName: '',
+      email: '',
+      phone: '',
+      roomPreference: '',
+      checkInDate: '',
+      duration: '',
+      specialRequests: ''
+    });
+  };
+
+  const updateBookingStatus = (id, newStatus) => {
+    setBookings(bookings.map(booking => 
+      //same booking thakibo ako change nhoii
+      booking.id === id ? { ...booking, status: newStatus } : booking
+    ));
+  };
+
+  const totalBookings = bookings.length;
+  const pendingBookings = bookings.filter(b => b.status === 'pending').length;
+  const confirmedBookings = bookings.filter(b => b.status === 'confirmed').length;
+  const waitlistedBookings = bookings.filter(b => b.status === 'waitlisted').length;
+
   const BookingCard = ({ booking }) => (
-    <div className="card p-6 hover:shadow-md transition-shadow">
-      <div className="flex justify-between items-start mb-4">
-        <div className="flex items-center space-x-3">
-          <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
-            <User className="h-6 w-6 text-blue-600 dark:text-blue-400" />
-          </div>
-          <div>
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{booking.studentName}</h3>
-            <p className="text-sm text-gray-500 dark:text-gray-400">{booking.roomPreference} Room</p>
+    <div className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 hover:scale-105 transform">
+      <div className="bg-gradient-to-r from-purple-500 to-pink-600 p-6">
+        <div className="flex justify-between items-start mb-3">
+          <div className="flex items-center space-x-3">
+            <div className="bg-white p-3 rounded-full">
+              <User className="h-6 w-6 text-purple-600" />
+            </div>
+            <div>
+              <h3 className="text-xl font-bold text-white">{booking.studentName}</h3>
+              <p className="text-purple-100 text-sm">{booking.roomPreference} Room</p>
+            </div>
           </div>
         </div>
-        <span className={`px-3 py-1 rounded-full text-xs font-medium ${statusColors[booking.status]}`}>
+        <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold border ${statusColors[booking.status]}`}>
+          {statusIcons[booking.status]}
           {booking.status.toUpperCase()}
         </span>
       </div>
 
-      <div className="space-y-3 mb-4">
-        <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
-          <Mail className="h-4 w-4" />
-          <span>{booking.email}</span>
+      <div className="p-6 space-y-4">
+        <div className="flex items-start gap-3">
+          <div className="bg-blue-100 p-2 rounded-lg">
+            <Mail className="h-5 w-5 text-blue-600" />
+          </div>
+          <div className="flex-1">
+            <p className="text-xs text-gray-500 font-medium">Email</p>
+            <p className="text-sm text-gray-900 font-semibold truncate">{booking.email}</p>
+          </div>
         </div>
-        <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
-          <Phone className="h-4 w-4" />
-          <span>{booking.phone}</span>
+
+        <div className="flex items-start gap-3">
+          <div className="bg-green-100 p-2 rounded-lg">
+            <Phone className="h-5 w-5 text-green-600" />
+          </div>
+          <div className="flex-1">
+            <p className="text-xs text-gray-500 font-medium">Phone</p>
+            <p className="text-sm text-gray-900 font-semibold">{booking.phone}</p>
+          </div>
         </div>
-        <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
-          <Calendar className="h-4 w-4" />
-          <span>Check-in: {new Date(booking.checkInDate).toLocaleDateString()}</span>
+
+        <div className="flex items-start gap-3">
+          <div className="bg-orange-100 p-2 rounded-lg">
+            <Calendar className="h-5 w-5 text-orange-600" />
+          </div>
+          <div className="flex-1">
+            <p className="text-xs text-gray-500 font-medium">Check-in Date</p>
+            <p className="text-sm text-gray-900 font-semibold">
+              {new Date(booking.checkInDate).toLocaleDateString()}
+            </p>
+          </div>
         </div>
-        <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
-          <Clock className="h-4 w-4" />
-          <span>Duration: {booking.duration}</span>
+
+        <div className="flex items-start gap-3">
+          <div className="bg-purple-100 p-2 rounded-lg">
+            <Clock className="h-5 w-5 text-purple-600" />
+          </div>
+          <div className="flex-1">
+            <p className="text-xs text-gray-500 font-medium">Duration</p>
+            <p className="text-sm text-gray-900 font-semibold">{booking.duration}</p>
+          </div>
+        </div>
+
+        <div className="pt-4 border-t border-gray-200">
+          <div className="bg-gray-50 p-3 rounded-lg">
+            <p className="text-xs text-gray-500 mb-1">Applied on</p>
+            <p className="text-sm font-medium text-gray-900">
+
+              {/* //This date also come from backend */}
+              {new Date(booking.createdAt).toLocaleDateString()}
+            </p>
+          </div>
         </div>
       </div>
 
-      <div className="mb-4 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
-        <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Applied on</p>
-        <p className="text-sm font-medium text-gray-900 dark:text-white">
-          {new Date(booking.createdAt).toLocaleDateString()}
-        </p>
-      </div>
-
-      <div className="flex space-x-2">
-        {booking.status === 'pending' && (
-          <>
+      <div className="px-6 pb-6">
+        {booking.status === 'pending' ? (
+          <div className="flex gap-2">
             <button 
-              onClick={() => updateBooking(booking.id, { status: 'confirmed' })}
-              className="flex-1 btn btn-primary"
+            //booking id come from booking card and backend id
+              onClick={() => updateBookingStatus(booking.id, 'confirmed')}
+              className="flex-1 bg-gradient-to-r from-green-600 to-emerald-600 text-white py-2 rounded-xl hover:from-green-700 hover:to-emerald-700 transition-all font-medium shadow-md hover:shadow-lg"
             >
               Approve
             </button>
             <button 
-              onClick={() => updateBooking(booking.id, { status: 'cancelled' })}
-              className="flex-1 btn btn-secondary"
+              onClick={() => updateBookingStatus(booking.id, 'cancelled')}
+              className="flex-1 bg-gradient-to-r from-red-600 to-rose-600 text-white py-2 rounded-xl hover:from-red-700 hover:to-rose-700 transition-all font-medium shadow-md hover:shadow-lg"
             >
               Reject
             </button>
-          </>
-        )}
-        {booking.status !== 'pending' && (
-          <button className="flex-1 btn btn-secondary">View Details</button>
+          </div>
+        ) : (
+          <button className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-2 rounded-xl hover:from-purple-700 hover:to-pink-700 transition-all font-medium shadow-md hover:shadow-lg">
+            View Details
+          </button>
         )}
       </div>
     </div>
   );
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Booking Management</h1>
-          <p className="text-gray-600 dark:text-gray-400 mt-1">Manage room reservations and applications</p>
-        </div>
-        <button className="btn btn-primary flex items-center space-x-2 mt-4 md:mt-0">
-          <Plus className="h-5 w-5" />
-          <span>New Booking</span>
-        </button>
-      </div>
-
-      {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="card p-4">
-          <div className="text-2xl font-bold text-gray-900 dark:text-white">{data.bookings.length}</div>
-          <div className="text-sm text-gray-600 dark:text-gray-400">Total Bookings</div>
-        </div>
-        <div className="card p-4">
-          <div className="text-2xl font-bold text-yellow-600">{data.bookings.filter(b => b.status === 'pending').length}</div>
-          <div className="text-sm text-gray-600 dark:text-gray-400">Pending</div>
-        </div>
-        <div className="card p-4">
-          <div className="text-2xl font-bold text-green-600">{data.bookings.filter(b => b.status === 'confirmed').length}</div>
-          <div className="text-sm text-gray-600 dark:text-gray-400">Confirmed</div>
-        </div>
-        <div className="card p-4">
-          <div className="text-2xl font-bold text-blue-600">{data.bookings.filter(b => b.status === 'waitlisted').length}</div>
-          <div className="text-sm text-gray-600 dark:text-gray-400">Waitlisted</div>
-        </div>
-      </div>
-
-      {/* Filters */}
-      <div className="card p-4">
-        <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
-          <div className="flex-1 relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
-            <input
-              type="text"
-              placeholder="Search bookings..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
-            />
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-orange-50 p-6">
+      <div className="max-w-7xl mx-auto">
+        <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+          <div>
+            <h1 className="text-4xl font-bold text-gray-900 mb-2">Booking Management</h1>
+            <p className="text-gray-600">Manage room reservations and applications</p>
           </div>
-          <select
-            value={filterStatus}
-            onChange={(e) => setFilterStatus(e.target.value)}
-            className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+          <button 
+            onClick={() => setShowAddModal(true)}
+            className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-xl flex items-center gap-2 hover:from-purple-700 hover:to-pink-700 shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105"
           >
-            <option value="all">All Status</option>
-            <option value="pending">Pending</option>
-            <option value="confirmed">Confirmed</option>
-            <option value="cancelled">Cancelled</option>
-            <option value="waitlisted">Waitlisted</option>
-          </select>
+            <Plus className="w-5 h-5" />
+            <span>New Booking</span>
+          </button>
         </div>
-      </div>
 
-      {/* Bookings Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredBookings.map(booking => (
-          <BookingCard key={booking.id} booking={booking} />
-        ))}
-      </div>
+        {showAddModal && <BookingForm onClose={() => setShowAddModal(false)} />}
 
-      {filteredBookings.length === 0 && (
-        <div className="text-center py-12">
-          <Calendar className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-          <p className="text-gray-500 dark:text-gray-400">No bookings found matching your criteria.</p>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+          <div className="bg-white p-6 rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-shadow">
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="text-3xl font-bold text-gray-900 mb-1">{totalBookings}</div>
+                <div className="text-gray-600 font-medium">Total Bookings</div>
+              </div>
+              <div className="bg-purple-100 p-4 rounded-xl">
+                <Calendar className="w-8 h-8 text-purple-600" />
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white p-6 rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-shadow">
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="text-3xl font-bold text-yellow-600 mb-1">{pendingBookings}</div>
+                <div className="text-gray-600 font-medium">Pending</div>
+              </div>
+              <div className="bg-yellow-100 p-4 rounded-xl">
+                <Clock className="w-8 h-8 text-yellow-600" />
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white p-6 rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-shadow">
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="text-3xl font-bold text-green-600 mb-1">{confirmedBookings}</div>
+                <div className="text-gray-600 font-medium">Confirmed</div>
+              </div>
+              <div className="bg-green-100 p-4 rounded-xl">
+                <CheckCircle className="w-8 h-8 text-green-600" />
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white p-6 rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-shadow">
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="text-3xl font-bold text-blue-600 mb-1">{waitlistedBookings}</div>
+                <div className="text-gray-600 font-medium">Waitlisted</div>
+              </div>
+              <div className="bg-blue-100 p-4 rounded-xl">
+                <User className="w-8 h-8 text-blue-600" />
+              </div>
+            </div>
+          </div>
         </div>
-      )}
+
+        <div className="bg-white p-6 rounded-2xl shadow-lg mb-8 border border-gray-100">
+          <div className="flex flex-col md:flex-row gap-4">
+            <div className="flex-1 relative">
+              <Search className="w-5 h-5 absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" />
+              <input
+                type="text"
+                placeholder="Search bookings by name or email..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+              />
+            </div>
+            <select
+              value={filterStatus}
+              onChange={(e) => setFilterStatus(e.target.value)}
+              className="px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+            >
+              <option value="all">All Status</option>
+              <option value="pending">Pending</option>
+              <option value="confirmed">Confirmed</option>
+              <option value="cancelled">Cancelled</option>
+              <option value="waitlisted">Waitlisted</option>
+            </select>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredBookings.map(booking => (
+            <BookingForm key={booking.id} booking={booking} />
+          ))}
+        </div>
+
+        {filteredBookings.length === 0 && (
+          <div className="bg-white rounded-2xl shadow-lg p-12 text-center border border-gray-100">
+            <div className="bg-gray-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Calendar className="w-8 h-8 text-gray-400" />
+            </div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">No bookings found</h3>
+            <p className="text-gray-600">Try adjusting your search or filter criteria</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

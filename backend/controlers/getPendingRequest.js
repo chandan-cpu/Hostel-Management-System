@@ -104,7 +104,7 @@ const getPendingRequests = async (req, res) => {
       }
 
       if (action === "reject") {
-        user.status = "rejected";
+        user.roomStatus = "reject";
         await user.save();
 
         room.applicants = room.applicants.filter((id) => id.toString() !== userId);

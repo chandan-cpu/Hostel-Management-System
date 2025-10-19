@@ -220,28 +220,8 @@ export default function HostelAdminPanel() {
 
   const [appliedRooms, setAppliedRooms] = useState([]);
 
-  // setAppliedRooms(requests1.map(r=> r?.applicants));
-
-
-  // const cleanAppliedRooms = appliedRooms.filter(r => r && Object.keys(r).length > 0);
-  // console.log(cleanAppliedRooms);
-
-  // const final = cleanAppliedRooms.filter(r => r.roomStatus === 'applied');
-  // console.log('Final Applied Rooms:', final);
-
 
   //Dry Run
-//   const final = appliedRooms
-//   .flat()
-//   .filter(r => r && Object.keys(r).length > 0 && r.roomStatus === 'applied');
-
-// console.log("Final Applied Rooms:", final);
-// console.log("Total Applied Requests:", appliedRooms.name);
-
-
-// const appliedCount = final.filter(r => r.roomStatus === 'applied').length;
-// console.log("Applied Requests:", appliedCount);
-
   const [finalAppliedRooms, setFinalAppliedRooms] = useState([]);
   const [appliedCount, setAppliedCount] = useState(0);
 
@@ -304,12 +284,13 @@ export default function HostelAdminPanel() {
     setShowRequestDetails(true);
   };
 
-  const pendingCount = finalAppliedRooms.filter(r => r.roomStatus === 'applied').length;
-  const acceptedCount = finalAppliedRooms.filter(r => r.roomStatus === 'assigned').length;
-  const rejectedCount = finalAppliedRooms.filter(r => r.roomStatus === 'reject').length;
+  const pendingCount = requests1.filter(r => r.roomStatus === 'applied').length;
+  const acceptedCount = requests1.filter(r => r.roomStatus === 'assigned').length;
+  console.log("Accepted Count:", acceptedCount);
+  const rejectedCount = requests1.filter(r => r.roomStatus === 'reject').length;
   const totalCapacity = hostels.reduce((sum, h) => sum + h.capacity, 0);
-  const totalOccupied = hostels.reduce((sum, h) => sum + (h.occupied || 0), 0);
-  const availableRooms = hostels.filter(h => h.occupied < h.capacity).length;
+  const totalOccupied = hostels.reduce((sum, h) => sum + (h.assignedTo.length || 0), 0);
+  const availableRooms = hostels.filter(h => h.assignedTo.length < h.capacity).length;
 
   const filteredHostels = hostels.filter(hostel =>
     hostel.hostelName.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -317,28 +298,28 @@ export default function HostelAdminPanel() {
     hostel.wardenName.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const filteredRequests = requests
+  const filteredRequests = requests1
     .filter(req => {
       const matchesSearch =
-        req.userName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        final.userId.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        req.roomNumber.toString().includes(searchTerm);
+        req.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        req._id.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        req.appliedRoom.toString().includes(searchTerm);
 
-      const matchesFilter = filterStatus === 'all' || req.status === filterStatus;
+      const matchesFilter = filterStatus === 'all' || req.roomStatus === filterStatus;
 
       return matchesSearch && matchesFilter;
     })
     .sort((a, b) => {
       if (sortBy === 'date') {
-        return new Date(b.requestDate) - new Date(a.requestDate);
+        return new Date(b.createdAt) - new Date(a.createdAt);
       } else if (sortBy === 'name') {
-        return a.userName.localeCompare(b.userName);
+        return a.name.localeCompare(b.name);
       }
       return 0;
     });
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 flex">
+    <div className="h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 flex overflow-hidden">
       {/* Toast Notification */}
       {showToast && (
         <div className={`fixed top-4 right-4 z-50 flex items-center gap-3 px-6 py-4 rounded-xl shadow-2xl transform transition-all duration-300 ${toastType === 'success' ? 'bg-green-500' :
@@ -361,8 +342,8 @@ export default function HostelAdminPanel() {
       )}
 
       {/* Sidebar */}
-      <div className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 fixed lg:static w-64 sm:w-72 h-screen transition-transform duration-300 bg-white shadow-2xl z-30 border-r border-gray-200 overflow-y-auto`}>
-        <div className="flex flex-col min-h-full">
+      <div className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 fixed lg:static w-64 sm:w-72 h-screen transition-transform duration-300 bg-white shadow-2xl z-30 border-r border-gray-200`}>
+        <div className="flex flex-col h-full">
           {/* Logo/Header */}
           <div className="p-6 border-b border-gray-200 bg-gradient-to-r from-indigo-600 to-purple-600">
             <div className="flex items-center justify-between">
@@ -534,9 +515,9 @@ export default function HostelAdminPanel() {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col min-h-screen w-full overflow-x-hidden">
+      <div className="flex-1 flex flex-col h-screen w-full overflow-hidden">
         {/* Top Bar */}
-        <div className="shadow-sm border-b border-gray-200 p-3 md:p-4 sticky top-0 z-10 backdrop-blur-sm bg-white/95">
+        <div className="shadow-sm border-b border-gray-200 p-3 md:p-4 z-10 backdrop-blur-sm bg-white/95 flex-shrink-0">
           <div className="flex items-center justify-between gap-2 md:gap-4">
             <div className="flex items-center gap-2 md:gap-4 flex-1 min-w-0">
               <button
@@ -643,23 +624,23 @@ export default function HostelAdminPanel() {
                     <button className="text-sm text-indigo-600 hover:text-indigo-700 font-medium hover:underline">View all →</button>
                   </div>
                   <div className="space-y-3">
-                    {requests.slice(0, 4).map(req => (
+                    {requests1.slice(0, 4).map(req => (
                       <div key={req.id} className="flex items-center justify-between p-4 bg-gradient-to-r from-gray-50 to-white rounded-xl hover:shadow-md transition-all border border-gray-100 cursor-pointer group">
                         <div className="flex items-center gap-3">
                           <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-                            <span className="text-white font-bold text-lg">{req.userName.charAt(0)}</span>
+                            <span className="text-white font-bold text-lg">{req.name.charAt(0)}</span>
                           </div>
                           <div>
-                            <p className="font-semibold text-gray-900">{req.userName}</p>
-                            <p className="text-sm text-gray-500">Room {req.roomNumber} • {req.requestDate}</p>
+                            <p className="font-semibold text-gray-900">{req.name}</p>
+                            <p className="text-sm text-gray-500">Room {req.roomNumber} • {new Date(req.createdAt).toISOString().split('T')[0]}</p>
                           </div>
                         </div>
-                        <span className={`px-3 py-1.5 rounded-full text-xs font-semibold shadow-sm ${req.status === 'pending' ? 'bg-orange-100 text-orange-700 border border-orange-200' :
-                          req.status === 'accept' ? 'bg-green-100 text-green-700 border border-green-200' :
+                        <span className={`px-3 py-1.5 rounded-full text-xs font-semibold shadow-sm ${req.roomStatus === 'applied' ? 'bg-orange-100 text-orange-700 border border-orange-200' :
+                          req.roomStatus === 'assigned' ? 'bg-green-100 text-green-700 border border-green-200' :
                             'bg-red-100 text-red-700 border border-red-200'
                           }`}>
-                          {req.status === 'pending' ? '⏳ Pending' :
-                            req.status === 'accept' ? '✓ Approved' : '✗ Rejected'}
+                          {req.roomStatus === 'applied' ? '⏳ Pending' :
+                            req.roomStatus === 'assigned' ? '✓ Approved' : '✗ Rejected'}
                         </span>
                       </div>
                     ))}
@@ -671,7 +652,7 @@ export default function HostelAdminPanel() {
                   <div className="bg-gradient-to-br from-indigo-600 to-purple-600 rounded-2xl shadow-lg p-6 text-white">
                     <div className="flex items-center gap-3 mb-4">
                       <div className="bg-white bg-opacity-20 p-2.5 rounded-lg">
-                        <Building2 size={24} />
+                        <Building2 size={24} className='bg-black' />
                       </div>
                       <h3 className="text-lg font-bold">Available Rooms</h3>
                     </div>
@@ -924,14 +905,14 @@ export default function HostelAdminPanel() {
                     {showFilters && (
                       <div className="absolute top-full mt-2 right-0 bg-white border-2 border-gray-200 rounded-xl shadow-xl p-3 w-48 z-20">
                         <p className="text-sm font-semibold text-gray-700 mb-2">Status</p>
-                        {['all', 'pending', 'accept', 'reject'].map(status => (
+                        {['all', 'applied', 'assigned', 'reject'].map(status => (
                           <button
                             key={status}
                             onClick={() => { setFilterStatus(status); setShowFilters(false); }}
                             className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-all ${filterStatus === status ? 'bg-indigo-100 text-indigo-700 font-semibold' : 'hover:bg-gray-100'
                               }`}
                           >
-                            {status === 'all' ? 'All Requests' : status === 'pending' ? 'Pending' : status === 'accept' ? 'Approved' : 'Rejected'}
+                            {status === 'all' ? 'All Requests' : status === 'applied' ? 'Applied' : status === 'assigned' ? 'Approved' : 'Rejected'}
                           </button>
                         ))}
                       </div>
@@ -949,7 +930,7 @@ export default function HostelAdminPanel() {
               </div>
 
               <div className="grid gap-4">
-                {requests1.map(req => (
+                {filteredRequests.map(req => (
                   <div key={req.id} className={`border-2 rounded-2xl p-6 transition-all transform hover:scale-102 ${req.roomStatus === 'applied' ? 'bg-white border-gray-200 hover:shadow-xl hover:border-orange-300' :
                     req.roomStatus === 'assigned' ? 'bg-green-50 border-green-200' :
                       'bg-red-50 border-red-200'

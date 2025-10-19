@@ -1,7 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Navbar.css';
+import { Link } from 'react-router-dom';
 
 const Navbar = ({ scrollToSection }) => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  const handleNavClick = (section) => {
+    scrollToSection(section);
+    setIsMenuOpen(false); // Close menu after clicking
+  };
+
   return (
     <nav className="navbar h-18">
       <div className="nav-container">
@@ -11,34 +23,56 @@ const Navbar = ({ scrollToSection }) => {
           </div>
           <span>HostelHub</span>
         </div>
-        <ul className="nav-links">
+
+        {/* Hamburger Menu Button */}
+        <button 
+          className={`hamburger ${isMenuOpen ? 'active' : ''}`} 
+          onClick={toggleMenu}
+          aria-label="Toggle menu"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        {/* Navigation Links */}
+        <ul className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
           <li>
-            <a href="#home" onClick={(e) => { e.preventDefault(); scrollToSection('home'); }}>
+            <a href="#home" onClick={(e) => { e.preventDefault(); handleNavClick('home'); }}>
               Home
             </a>
           </li>
           <li>
-            <a href="#features" onClick={(e) => { e.preventDefault(); scrollToSection('features'); }}>
+            <a href="#features" onClick={(e) => { e.preventDefault(); handleNavClick('features'); }}>
               Features
             </a>
           </li>
           <li>
-            <a href="#gallery" onClick={(e) => { e.preventDefault(); scrollToSection('gallery'); }}>
+            <a href="#gallery" onClick={(e) => { e.preventDefault(); handleNavClick('gallery'); }}>
               Gallery
             </a>
           </li>
           <li>
-            <a href="#testimonials" onClick={(e) => { e.preventDefault(); scrollToSection('testimonials'); }}>
+            <a href="#testimonials" onClick={(e) => { e.preventDefault(); handleNavClick('testimonials'); }}>
               Testimonials
             </a>
           </li>
           <li>
-            <a href="#contact" onClick={(e) => { e.preventDefault(); scrollToSection('contact'); }}>
+            <a href="#contact" onClick={(e) => { e.preventDefault(); handleNavClick('contact'); }}>
               Contact
             </a>
           </li>
+          <li>
+            <Link to="/login" className="login-btn" onClick={() => setIsMenuOpen(false)}>
+              Login
+            </Link>
+          </li>
         </ul>
-        <a href="#login" className="login-btn">Login</a>
+
+        {/* Mobile Overlay */}
+        {isMenuOpen && (
+          <div className="mobile-overlay" onClick={toggleMenu}></div>
+        )}
       </div>
     </nav>
   );

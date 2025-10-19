@@ -1,4 +1,5 @@
 import React from 'react';
+import { Routes, Route } from 'react-router-dom';
 
 import Navbar from './components/Navbar/Navbar';
 import Carousel from './components/Carousel/Carousel';
@@ -6,7 +7,11 @@ import Features from './components/features/features';
 import Gallery from './components/Gallery/Gallery';
 import Testimonials from './components/Testimonials/Testimonials';
 import Footer from './components/footer/footer';
+import LoginPage from './components/Auth/Login';
 import './App.css';
+import SignupPage from './components/Auth/Signup';
+import Dashboard from './components/UserDash/HostelDashboard';
+import { User } from 'lucide-react';
 
 const App = () => {
   const scrollToSection = (sectionId) => {
@@ -16,14 +21,26 @@ const App = () => {
     }
   };
 
-  return (
-    <div className="App">
+  // Home Page Component
+  const HomePage = () => (
+    <>
       <Navbar scrollToSection={scrollToSection} />
       <Carousel scrollToSection={scrollToSection} />
       <Features />
       <Gallery />
       <Testimonials />
       <Footer />
+    </>
+  );
+
+  return (
+    <div className="App">
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/dashboard/:id" element={<Dashboard />} />
+      </Routes>
     </div>
   );
 };

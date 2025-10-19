@@ -318,6 +318,123 @@ export default function HostelAdminPanel() {
       return 0;
     });
 
+  // Export Functions
+  const exportToCSV = (data, filename) => {
+    if (!data || data.length === 0) {
+      alert('No data to export!');
+      return;
+    }
+
+    const headers = Object.keys(data[0]);
+    const csvContent = [
+      headers.join(','),
+      ...data.map(row => 
+        headers.map(header => {
+          const value = row[header];
+          // Handle nested objects and arrays
+          if (typeof value === 'object' && value !== null) {
+            return `"${JSON.stringify(value).replace(/"/g, '""')}"`;
+          }
+          // Escape commas and quotes
+          return `"${String(value).replace(/"/g, '""')}"`;
+        }).join(',')
+      )
+    ].join('\n');
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', `${filename}_${new Date().toISOString().split('T')[0]}.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const exportToJSON = (data, filename) => {
+    if (!data || data.length === 0) {
+      alert('No data to export!');
+      return;
+    }
+
+    const jsonContent = JSON.stringify(data, null, 2);
+    const blob = new Blob([jsonContent], { type: 'application/json' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', `${filename}_${new Date().toISOString().split('T')[0]}.json`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const exportRoomsData = (format) => {
+    const roomsData = hostels.map(room => ({
+      roomNumber: room.roomNumber,
+      hostelName: room.hostelName,
+      floor: room.floor,
+      capacity: room.capacity,
+      occupied: room.assignedTo?.length || 0,
+      available: room.capacity - (room.assignedTo?.length || 0),
+      wardenName: room.wardenName,
+      coWardenName: room.coWardenName,
+      amenities: Array.isArray(room.amenities) ? room.amenities.join('; ') : room.amenities,
+      lastUpdated: room.lastUpdated
+    }));
+
+    if (format === 'csv') {
+      exportToCSV(roomsData, 'hostel_rooms');
+    } else if (format === 'json') {
+      exportToJSON(roomsData, 'hostel_rooms');
+    }
+  };
+
+  const exportStudentsData = (format) => {
+    const studentsData = requests1.map(student => ({
+      name: student.name,
+      email: student.email,
+      phone: student.phone,
+      course: student.course,
+      year: student.year,
+      roomNumber: student.roomNumber,
+      hostelName: student.hostelName,
+      status: student.roomStatus,
+      appliedDate: student.createdAt ? new Date(student.createdAt).toISOString().split('T')[0] : 'N/A'
+    }));
+
+    if (format === 'csv') {
+      exportToCSV(studentsData, 'students_data');
+    } else if (format === 'json') {
+      exportToJSON(studentsData, 'students_data');
+    }
+  };
+
+  const exportAllData = (format) => {
+    const allData = {
+      exportDate: new Date().toISOString(),
+      statistics: {
+        totalRooms: hostels.length,
+        totalCapacity: totalCapacity,
+        totalOccupied: totalOccupied,
+        availableRooms: availableRooms,
+        pendingRequests: pendingCount,
+        approvedRequests: acceptedCount,
+        rejectedRequests: rejectedCount,
+        occupancyRate: `${((totalOccupied / totalCapacity) * 100).toFixed(2)}%`
+      },
+      rooms: hostels,
+      students: requests1
+    };
+
+    if (format === 'json') {
+      exportToJSON([allData], 'complete_hostel_data');
+    } else {
+      alert('Complete data export is only available in JSON format.');
+    }
+  };
+
   return (
     <div className="h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 flex overflow-hidden">
       {/* Toast Notification */}
@@ -611,6 +728,110 @@ export default function HostelAdminPanel() {
                   <p className="text-4xl font-bold text-gray-900">{((totalOccupied / totalCapacity) * 100).toFixed(0)}%</p>
                   <div className="w-full bg-gray-200 rounded-full h-2 mt-3">
                     <div className="bg-gradient-to-r from-purple-500 to-pink-600 h-2 rounded-full transition-all" style={{ width: `${(totalOccupied / totalCapacity) * 100}%` }}></div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Export Section */}
+              <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+                <div className="flex items-center justify-between mb-6">
+                  <div>
+                    <h3 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+                      <Download size={24} className="text-indigo-600" />
+                      Export Data
+                    </h3>
+                    <p className="text-sm text-gray-500 mt-1">Download your hostel management data in various formats</p>
+                  </div>
+                  <RefreshCw size={20} className="text-gray-400 cursor-pointer hover:text-indigo-600 transition-colors" onClick={fetchData} />
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {/* Rooms Data Export */}
+                  <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-5 border border-blue-100 hover:shadow-md transition-all">
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="bg-blue-500 p-2.5 rounded-lg">
+                        <Building2 size={20} className="text-white" />
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-gray-900">Rooms Data</h4>
+                        <p className="text-xs text-gray-500">{hostels.length} total rooms</p>
+                      </div>
+                    </div>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => exportRoomsData('csv')}
+                        className="flex-1 bg-white hover:bg-blue-500 hover:text-white text-blue-600 px-3 py-2 rounded-lg text-sm font-medium transition-all shadow-sm border border-blue-200"
+                      >
+                        📊 CSV
+                      </button>
+                      <button
+                        onClick={() => exportRoomsData('json')}
+                        className="flex-1 bg-white hover:bg-blue-500 hover:text-white text-blue-600 px-3 py-2 rounded-lg text-sm font-medium transition-all shadow-sm border border-blue-200"
+                      >
+                        📄 JSON
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Students Data Export */}
+                  <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-5 border border-green-100 hover:shadow-md transition-all">
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="bg-green-500 p-2.5 rounded-lg">
+                        <Users size={20} className="text-white" />
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-gray-900">Students Data</h4>
+                        <p className="text-xs text-gray-500">{requests1.length} total students</p>
+                      </div>
+                    </div>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => exportStudentsData('csv')}
+                        className="flex-1 bg-white hover:bg-green-500 hover:text-white text-green-600 px-3 py-2 rounded-lg text-sm font-medium transition-all shadow-sm border border-green-200"
+                      >
+                        📊 CSV
+                      </button>
+                      <button
+                        onClick={() => exportStudentsData('json')}
+                        className="flex-1 bg-white hover:bg-green-500 hover:text-white text-green-600 px-3 py-2 rounded-lg text-sm font-medium transition-all shadow-sm border border-green-200"
+                      >
+                        📄 JSON
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Complete Data Export */}
+                  <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-5 border border-purple-100 hover:shadow-md transition-all">
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="bg-gradient-to-r from-purple-500 to-pink-500 p-2.5 rounded-lg">
+                        <Download size={20} className="text-white" />
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-gray-900">Complete Data</h4>
+                        <p className="text-xs text-gray-500">All data with stats</p>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => exportAllData('json')}
+                      className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-3 py-2 rounded-lg text-sm font-medium transition-all shadow-md"
+                    >
+                      📦 Export All (JSON)
+                    </button>
+                  </div>
+                </div>
+
+                {/* Export Info */}
+                <div className="mt-4 bg-blue-50 border border-blue-200 rounded-lg p-4">
+                  <div className="flex items-start gap-3">
+                    <AlertCircle size={20} className="text-blue-600 mt-0.5 flex-shrink-0" />
+                    <div className="text-sm text-blue-800">
+                      <p className="font-semibold mb-1">Export Information:</p>
+                      <ul className="list-disc list-inside space-y-1 text-xs">
+                        <li><strong>CSV:</strong> Best for Excel and data analysis tools</li>
+                        <li><strong>JSON:</strong> Best for developers and system integration</li>
+                        <li><strong>Complete Data:</strong> Includes statistics, rooms, and students in one file</li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
               </div>

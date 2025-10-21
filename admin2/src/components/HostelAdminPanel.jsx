@@ -1,34 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Trash2, Check, X, Building2, Users, Home, Menu, XCircle, Search, Bell, ChevronDown, Edit2, Eye, Filter, Download, Upload, RefreshCw, MoreVertical, AlertCircle, TrendingUp, Calendar, Settings, IndianRupee } from 'lucide-react';
+import { Plus, Trash2, Check, X, Building2, Users, Home, Menu, XCircle, Search, Bell, ChevronDown, Edit2, Eye, Filter, Download, Upload, RefreshCw, MoreVertical, AlertCircle, TrendingUp, Calendar, Settings, IndianRupee, UserCog } from 'lucide-react';
 import axios from '../axios';
+import StaffManagement from './Staff';
+
 
 export default function HostelAdminPanel() {
-  // const [hostels, setHostels] = useState([
-  //   {
-  //     id: 1,
-  //     roomNumber: "303",
-  //     hostelName: "Ambedkar Hostel",
-  //     floor: 3,
-  //     capacity: 3,
-  //     occupied: 2,
-  //     wardenName: "Mr. Sharma",
-  //     coWardenName: "Ms. Ritu",
-  //     amenities: ["WiFi", "AC", "Attached Bath"],
-  //     lastUpdated: "2025-10-10"
-  //   },
-  //   {
-  //     id: 2,
-  //     roomNumber: "205",
-  //     hostelName: "Gandhi Hostel",
-  //     floor: 2,
-  //     capacity: 2,
-  //     occupied: 1,
-  //     wardenName: "Dr. Verma",
-  //     coWardenName: "Ms. Kapoor",
-  //     amenities: ["WiFi", "Common Bath"],
-  //     lastUpdated: "2025-10-12"
-  //   }
-  // ]);
 
   const [requests1, setRequests1] = useState([]);
   const [hostels, setHostels] = useState([]);
@@ -43,7 +19,7 @@ export default function HostelAdminPanel() {
       console.log('Fetched student requests:', res_student.data.rooms);
       setHostels(res.data.rooms);
 
-      const getUserData=await axios.get('/user/all');
+      const getUserData = await axios.get('/user/all');
       console.log('All Users Data:', getUserData.data.users);
       setRequests1(getUserData.data.users);
       // setRequests1(res_student.data.rooms);
@@ -61,45 +37,6 @@ export default function HostelAdminPanel() {
   }, [])
 
   console.log("Requests Data:", requests1);
-  const [requests, setRequests] = useState([
-    {
-      id: 1,
-      userId: "68f0cb96960403faf28f3443",
-      roomNumber: 105,
-      userName: "Rahul Kumar",
-      requestDate: "2025-10-15",
-      status: "pending",
-      email: "rahul.kumar@university.edu",
-      phone: "+91-9876543210",
-      course: "B.Tech CSE",
-      year: "2nd Year"
-    },
-    {
-      id: 2,
-      userId: "68f0cb96960403faf28f3444",
-      roomNumber: 303,
-      userName: "Priya Singh",
-      requestDate: "2025-10-16",
-      status: "pending",
-      email: "priya.singh@university.edu",
-      phone: "+91-9876543211",
-      course: "B.Tech ECE",
-      year: "1st Year"
-    },
-    {
-      id: 3,
-      userId: "68f0cb96960403faf28f3445",
-      roomNumber: 205,
-      userName: "Amit Patel",
-      requestDate: "2025-10-14",
-      status: "pending",
-      email: "amit.patel@university.edu",
-      phone: "+91-9876543212",
-      course: "M.Tech CS",
-      year: "1st Year"
-    }
-  ]);
-
   const [activeTab, setActiveTab] = useState('dashboard');
   const [showForm, setShowForm] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -243,7 +180,7 @@ export default function HostelAdminPanel() {
 
   console.log("Total Applied Requests:", finalAppliedRooms);
 
-//Dry Run complete
+  //Dry Run complete
 
 
 
@@ -252,7 +189,7 @@ export default function HostelAdminPanel() {
 
   const handleRequest = async (requestId, roomNumber, action) => {
     console.log(`Request ID: ${requestId}, Room Number: ${roomNumber}, Action: ${action}`);
-    try{
+    try {
       const res = await axios.post('admin/approve-reject', {
         userId: requestId,
         roomNumber,
@@ -271,10 +208,10 @@ export default function HostelAdminPanel() {
     //   ));
     //   setShowRequestDetails(false);
     //   setLoading(false);
-      showNotification(
-        action === 'accept' ? 'Request accepted successfully!' : 'Request rejected',
-        action === 'accept' ? 'success' : 'warning'
-      );
+    showNotification(
+      action === 'accept' ? 'Request accepted successfully!' : 'Request rejected',
+      action === 'accept' ? 'success' : 'warning'
+    );
     // }, 600);
 
   };
@@ -328,7 +265,7 @@ export default function HostelAdminPanel() {
     const headers = Object.keys(data[0]);
     const csvContent = [
       headers.join(','),
-      ...data.map(row => 
+      ...data.map(row =>
         headers.map(header => {
           const value = row[header];
           // Handle nested objects and arrays
@@ -596,6 +533,22 @@ export default function HostelAdminPanel() {
               </div>
             </button>
 
+            <button
+              onClick={() => {
+                setActiveTab('staff');
+                setSidebarOpen(false);
+              }}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all font-medium ${activeTab === 'staff'
+                ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg scale-105'
+                : 'hover:bg-gray-100 text-gray-700'
+                }`}
+            >
+              <UserCog size={20} />
+              <div className="flex items-center justify-between flex-1">
+                <span>Staff Management</span>
+              </div>
+            </button>
+
             <div className="pt-4 mt-4 border-t border-gray-200">
               <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider px-4 mb-2">Quick Actions</p>
               <button className="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-gray-100 text-gray-700 text-sm transition-all">
@@ -648,11 +601,13 @@ export default function HostelAdminPanel() {
                   {activeTab === 'dashboard' && ' Overview'}
                   {activeTab === 'hostels' && ' Rooms'}
                   {activeTab === 'requests' && ' Applications'}
+                  {activeTab === 'staff' && ' Staff Management'}
                 </h1>
                 <p className="text-xs md:text-sm text-gray-500 mt-0.5 hidden sm:block truncate">
                   {activeTab === 'dashboard' && 'Monitor operations'}
                   {activeTab === 'hostels' && 'Manage rooms'}
                   {activeTab === 'requests' && 'Review applications'}
+                  {activeTab === 'staff' && 'Manage hostel staff'}
                 </p>
               </div>
             </div>
@@ -714,7 +669,7 @@ export default function HostelAdminPanel() {
                   </div>
                   <p className="text-gray-500 text-sm font-medium mb-1">Approved</p>
                   <p className="text-4xl font-bold text-gray-900">{acceptedCount}</p>
-                  <p className="text-xs text-gray-500 font-medium mt-2">{((acceptedCount / requests.length) * 100).toFixed(0)}% success rate</p>
+                  <p className="text-xs text-gray-500 font-medium mt-2">{((acceptedCount / requests1.length) * 100).toFixed(0)}% success rate</p>
                 </div>
 
                 <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100 hover:shadow-xl transition-all cursor-pointer group">
@@ -1221,6 +1176,12 @@ export default function HostelAdminPanel() {
               </div>
             </div>
           )}
+
+          {activeTab==='staff' && (<div>
+            <StaffManagement/>
+            </div>
+          )}
+          
         </div>
       </div>
 
@@ -1230,7 +1191,7 @@ export default function HostelAdminPanel() {
           <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <div className="sticky top-0 bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-6 rounded-t-2xl">
               <div className="flex items-center justify-between">
-                <h3 className="text-2xl font-bold">Application Details</h3>
+                <h3 className="text-2xl font-bold ">Application Details</h3>
                 <button
                   onClick={() => setShowRequestDetails(false)}
                   className="p-2 hover:bg-white hover:bg-opacity-20 rounded-lg transition-all"
@@ -1259,11 +1220,11 @@ export default function HostelAdminPanel() {
                     <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Phone</label>
                     <p className="text-sm text-gray-700 mt-1">{selectedRequest.phone}</p>
                   </div>
-                   <div>
+                  <div>
                     <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Transaction ID</label>
                     <p className="text-sm text-gray-700 mt-1">{selectedRequest.transactionId}</p>
                   </div>
-                      <div>
+                  <div>
                     <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Amount Pay</label>
                     <p className="text-sm text-gray-700 mt-1">{selectedRequest.paidAmount}</p>
                   </div>
@@ -1286,7 +1247,7 @@ export default function HostelAdminPanel() {
                     <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Request Date</label>
                     <p className="text-sm text-gray-700 mt-1">{new Date(selectedRequest.createdAt).toLocaleDateString('en-GB')}</p>
                   </div>
-                    <div>
+                  <div>
                     <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Payment Status</label>
                     <p className="text-sm text-gray-700 mt-1">{selectedRequest.paymentStatus}</p>
                   </div>
@@ -1315,6 +1276,20 @@ export default function HostelAdminPanel() {
           </div>
         </div>
       )}
+
+      {/* Staff Management Tab */}
+      {/* {activeTab === 'staff' && (
+        <div className='space-y-6'>
+          <div className='flex flex-col md:flex-row gap-4 mb-6'>
+
+          </div>
+          <div className='flex gap-3 relative'>
+
+            <StaffManagement />
+          </div>
+
+        </div>
+      )} */}
     </div>
   );
 }

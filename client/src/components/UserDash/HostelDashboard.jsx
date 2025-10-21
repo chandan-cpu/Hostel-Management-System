@@ -342,7 +342,7 @@ export default function HostelDashboard() {
     <div className="space-y-6">
       <h1 className="text-3xl font-bold text-gray-800">Submit Query</h1>
 
-      <div className="bg-white rounded-lg shadow-md p-6 space-y-6">
+      <div className="bg-white rounded-lg shadow-md p-6 space-y-6 text-black text-left">
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-2">Query Subject</label>
           <input

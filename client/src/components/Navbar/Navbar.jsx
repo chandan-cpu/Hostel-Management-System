@@ -21,7 +21,10 @@ const Navbar = ({ scrollToSection }) => {
           <div className="logo-icon">
             <img src="https://hbtu.ac.in/wp-content/uploads/2024/07/hbtu-logo-1.jpg" alt="HBTU Logo" />
           </div>
-          <span>HostelHub</span>
+          <div className="logo-text">
+            <span className="logo-hostel">Hostel</span>
+            <span className="logo-hub">Hub</span>
+          </div>
         </div>
 
         {/* Hamburger Menu Button */}
@@ -60,6 +63,17 @@ const Navbar = ({ scrollToSection }) => {
           <li>
             <a href="#contact" onClick={(e) => { e.preventDefault(); handleNavClick('contact'); }}>
               Contact
+            </a>
+          </li>
+          <li>
+            <a 
+              href="http://localhost:5173" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="admin-btn"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Admin
             </a>
           </li>
           <li>

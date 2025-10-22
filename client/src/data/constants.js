@@ -1,6 +1,7 @@
 import image01 from '../assets/hostelImages/image01.jpg';
 import image02 from '../assets/hostelImages/image02.jpg';
 import image03 from '../assets/hostelImages/image03.jpg';
+import { Shield, Wifi, UtensilsCrossed, WashingMachine, BookOpen, Dumbbell } from 'lucide-react';
 
 export const SLIDES = [
   {
@@ -37,32 +38,32 @@ export const SLIDES = [
 
 export const FEATURES = [
   {
-    icon: '🔐',
+    icon: Shield,
     title: 'Secure Environment',
     description: '24/7 security with CCTV surveillance and biometric access control for your safety'
   },
   {
-    icon: '📶',
+    icon: Wifi,
     title: 'High-Speed WiFi',
     description: 'Unlimited high-speed internet connectivity in all rooms and common areas'
   },
   {
-    icon: '🍽️',
+    icon: UtensilsCrossed,
     title: 'Quality Meals',
     description: 'Nutritious and delicious meals prepared with hygiene and variety in mind'
   },
   {
-    icon: '🧺',
+    icon: WashingMachine,
     title: 'Laundry Service',
     description: 'Convenient laundry facilities and services to keep your wardrobe fresh'
   },
   {
-    icon: '📚',
+    icon: BookOpen,
     title: 'Study Rooms',
     description: 'Quiet study spaces with comfortable seating and proper lighting'
   },
   {
-    icon: '💪',
+    icon: Dumbbell,
     title: 'Fitness Center',
     description: 'Well-equipped gym and recreation facilities for your wellness'
   }

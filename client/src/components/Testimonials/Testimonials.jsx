@@ -3,6 +3,9 @@ import { TESTIMONIALS } from '../../data/constants';
 import './Testimonials.css';
 
 const Testimonials = () => {
+  // Duplicate testimonials for seamless infinite scroll
+  const duplicatedTestimonials = [...TESTIMONIALS, ...TESTIMONIALS];
+  
   return (
     <section className="testimonials" id="testimonials">
       <div className="testimonials-container">
@@ -11,7 +14,7 @@ const Testimonials = () => {
           Real experiences from our community
         </p>
         <div className="testimonial-grid">
-          {TESTIMONIALS.map((testimonial, index) => (
+          {duplicatedTestimonials.map((testimonial, index) => (
             <div key={index} className="testimonial-card">
               <div className="testimonial-header">
                 <div className="testimonial-avatar">{testimonial.avatar}</div>

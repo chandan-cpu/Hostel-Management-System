@@ -276,7 +276,7 @@ export default function StaffManagement() {
         <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-6 border-2 border-green-200">
           <div className="flex items-center justify-between mb-2">
             <CheckCircle className="text-green-600" size={28} />
-            <span className="text-xs bg-green-200 text-green-700 px-2 py-1 rounded-full font-semibold">Active</span>
+            <span className="text-xs bg-gradient-to-r from-amber-200 to-amber-200 text-green-700 px-2 py-1 rounded-full font-semibold">Active</span>
           </div>
           <h3 className="text-3xl font-bold text-gray-900">{activeStaff}</h3>
           <p className="text-sm text-gray-600 mt-1">Currently Working</p>

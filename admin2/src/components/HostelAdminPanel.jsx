@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Trash2, Check, X, Building2, Users, Home, Menu, XCircle, Search, Bell, ChevronDown, Edit2, Eye, Filter, Download, Upload, RefreshCw, MoreVertical, AlertCircle, TrendingUp, Calendar, Settings, IndianRupee, UserCog } from 'lucide-react';
+import { Plus, Trash2, Check, X, Building2, Users, Home, Menu, XCircle, Search, Bell, ChevronDown, Edit2, Eye, Filter, Download, Upload, RefreshCw, MoreVertical, AlertCircle, TrendingUp, Calendar, Settings, IndianRupee, UserCog, MessageSquare } from 'lucide-react';
 import axios from '../axios';
 import StaffManagement from './Staff';
+import Maintenance from './Maintenance';
+import Queries from './Queries';
 
 
 export default function HostelAdminPanel() {
@@ -480,46 +482,6 @@ export default function HostelAdminPanel() {
                 )}
               </div>
             </button>
-            <button
-              onClick={() => {
-                setActiveTab('maintenance');
-                setSidebarOpen(false);
-              }}
-              className={`w-full flex items-center gap-3 px-1 py-3 rounded-xl transition-all font-medium ${activeTab === 'maintenance'
-                ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg scale-105'
-                : 'hover:bg-gray-100 text-gray-700'
-                }`}
-            >
-              <Settings size={20} />
-              <div className="flex items-center justify-between flex-1">
-                <span>Maintenance Requests</span>
-                <span className={`px-2.5 py-1 rounded-full text-xs font-bold ${activeTab === 'maintenance' ? 'bg-white text-indigo-600' : 'bg-indigo-100 text-indigo-600'
-                  }`}>
-                  {hostels.length}
-                </span>
-              </div>
-            </button>
-
-            <button
-              onClick={() => {
-                setActiveTab('maintenance');
-                setSidebarOpen(false);
-              }}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all font-medium ${activeTab === 'maintenance'
-                ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg scale-105'
-                : 'hover:bg-gray-100 text-gray-700'
-                }`}
-            >
-              {/* <Rupee size={20} /> */}
-              <IndianRupee size={20} />
-              <div className="flex items-center justify-between flex-1">
-                <span>Finance</span>
-                <span className={`px-2.5 py-1 rounded-full text-xs font-bold ${activeTab === 'maintenance' ? 'bg-white text-indigo-600' : 'bg-indigo-100 text-indigo-600'
-                  }`}>
-                  {hostels.length}
-                </span>
-              </div>
-            </button>
 
             <button
               onClick={() => {
@@ -536,6 +498,37 @@ export default function HostelAdminPanel() {
                 <span>Staff Management</span>
               </div>
             </button>
+            <button
+              onClick={() => {
+                setActiveTab('maintenance')
+                setSidebarOpen(false);
+              }}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all font-medium ${activeTab === 'maintenance'
+                ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg scale-105'
+                : 'hover:bg-gray-100 text-gray-700'}`}
+
+            >
+              <Settings size={20} />
+              <div className="flex items-center justify-between flex-1">
+                <span>Maintenance</span>
+              </div>
+            </button>
+            <button
+              onClick={() => {
+                setActiveTab('queries')
+                setSidebarOpen(false);
+              }}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all font-medium ${activeTab === 'queries'
+                ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg scale-105'
+                : 'hover:bg-gray-100 text-gray-700'}`}
+
+            >
+              <MessageSquare size={20} />
+              <div className="flex items-center justify-between flex-1">
+                <span>Student Queries</span>
+              </div>
+            </button>
+
 
             <div className="pt-4 mt-4 border-t border-gray-200">
               <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider px-4 mb-2">Quick Actions</p>
@@ -590,12 +583,16 @@ export default function HostelAdminPanel() {
                   {activeTab === 'hostels' && ' Rooms'}
                   {activeTab === 'requests' && ' Applications'}
                   {activeTab === 'staff' && ' Staff Management'}
+                  {activeTab === 'maintenance' && ' Maintenance Requests'}
+                  {activeTab === 'queries' && ' Student Queries'}
                 </h1>
                 <p className="text-xs md:text-sm text-gray-500 mt-0.5 hidden sm:block truncate">
                   {activeTab === 'dashboard' && 'Monitor operations'}
                   {activeTab === 'hostels' && 'Manage rooms'}
                   {activeTab === 'requests' && 'Review applications'}
                   {activeTab === 'staff' && 'Manage hostel staff'}
+                  {activeTab === 'maintenance' && 'Handle maintenance requests'}
+                  {activeTab === 'queries' && 'Respond to student queries'}
                 </p>
               </div>
             </div>
@@ -1165,11 +1162,23 @@ export default function HostelAdminPanel() {
             </div>
           )}
 
-          {activeTab==='staff' && (<div>
-            <StaffManagement/>
+          {activeTab === 'staff' && (<div>
+            <StaffManagement />
+          </div>
+          )}
+
+          {activeTab==='maintenance' && (
+            <div>
+              <Maintenance />
             </div>
           )}
-          
+
+          {activeTab==='queries' && (
+            <div>
+              <Queries />
+            </div>
+          )}
+
         </div>
       </div>
 
@@ -1264,20 +1273,6 @@ export default function HostelAdminPanel() {
           </div>
         </div>
       )}
-
-      {/* Staff Management Tab */}
-      {/* {activeTab === 'staff' && (
-        <div className='space-y-6'>
-          <div className='flex flex-col md:flex-row gap-4 mb-6'>
-
-          </div>
-          <div className='flex gap-3 relative'>
-
-            <StaffManagement />
-          </div>
-
-        </div>
-      )} */}
     </div>
   );
 }

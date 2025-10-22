@@ -13,11 +13,6 @@ export default function HostelDashboard() {
 
 
 
-  const handleQuerySubmit = (e) => {
-    e.preventDefault();
-    alert('Query submitted successfully! We will respond soon.');
-    setQuery('');
-  };
 
 
 
@@ -171,6 +166,60 @@ export default function HostelDashboard() {
             </button>
           </div>
         </div>
+
+        {/* My Queries Section */}
+        {studentInfo.querySubject && (
+          <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-purple-600">
+            <div className="flex items-center space-x-3 mb-4">
+              <MessageSquare className="w-8 h-8 text-purple-600" />
+              <h2 className="text-xl font-semibold text-gray-800">My Query</h2>
+            </div>
+
+            <div className="space-y-4">
+              {/* Query Details */}
+              <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                <div className="flex items-start justify-between mb-2">
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-gray-900 mb-1">{studentInfo.querySubject}</h3>
+                    <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${studentInfo.queryType === 'Room Related' ? 'bg-blue-100 text-blue-800' :
+                        studentInfo.queryType === 'Payment Related' ? 'bg-green-100 text-green-800' :
+                          studentInfo.queryType === 'Maintenance Issue' ? 'bg-red-100 text-red-800' :
+                            studentInfo.queryType === 'Food & Mess' ? 'bg-orange-100 text-orange-800' :
+                              'bg-gray-100 text-gray-800'
+                      }`}>
+                      {studentInfo.queryType}
+                    </span>
+                  </div>
+                  <span className={`px-3 py-1 rounded-full text-xs font-semibold ${studentInfo.queryResponse
+                      ? 'bg-green-100 text-green-700 border border-green-300'
+                      : 'bg-yellow-100 text-yellow-700 border border-yellow-300'
+                    }`}>
+                    {studentInfo.queryResponse ? 'Replied' : 'Pending'}
+                  </span>
+                </div>
+                <p className="text-sm text-gray-700 mt-2">{studentInfo.queryDescription}</p>
+              </div>
+
+              {/* Admin Response */}
+              {studentInfo.queryResponse ? (
+                <div className="bg-green-50 rounded-lg p-4 border-l-4 border-green-500">
+                  <div className="flex items-center space-x-2 mb-2">
+                    <CheckCircle className="w-5 h-5 text-green-600" />
+                    <h4 className="font-semibold text-green-900">Admin Response</h4>
+                  </div>
+                  <p className="text-sm text-green-800">{studentInfo.queryResponse}</p>
+                </div>
+              ) : (
+                <div className="bg-yellow-50 rounded-lg p-4 border-l-4 border-yellow-500">
+                  <div className="flex items-center space-x-2">
+                    <AlertCircle className="w-5 h-5 text-yellow-600" />
+                    <p className="text-sm text-yellow-800 font-medium">Waiting for admin response...</p>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
       </div>
     )
   };
@@ -338,51 +387,111 @@ export default function HostelDashboard() {
     );
   };
 
-  const QueryPage = () => (
-    <div className="space-y-6">
-      <h1 className="text-3xl font-bold text-gray-800">Submit Query</h1>
+  const QueryPage = () => {
+     const [query, setQuery] = useState({
+      querySubject: '',
+      queryType: '',
+      queryDescription: ''
+    });
+  const [studentInfo, setStudentInfo] = useState({});
+    const fetchData = async () => {
+      // Fetch data from API
+      const userstr = localStorage.getItem('user');
+      if (!userstr) {
+        alert('User not found. Please login again.');
+        return;
+      }
+      const user = JSON.parse(userstr);
+      const userId = user.userId || user.id || user._id;
+      console.log("User ID:", userId);
+      setStudentInfo(user);
 
-      <div className="bg-white rounded-lg shadow-md p-6 space-y-6 text-black text-left">
-        <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">Query Subject</label>
-          <input
-            type="text"
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-            placeholder="Enter subject"
-          />
+    }
+    useEffect(() => {
+      fetchData();
+    }, []);
+
+
+    const handleQuerySubmit = async (e) => {
+      e.preventDefault();
+      try {
+        const userId = studentInfo.userId || studentInfo.id || studentInfo._id;
+        const res = await axios.put('/user/query-rise/' + userId, query);
+        console.log("Query Rise Response:", res.data);
+      } catch (error) {
+        console.error("Error submitting query:", error);
+        
+      }
+     
+      setQuery('');
+    };
+   
+    const handleChange = (e) => {
+      setQuery({
+        ...query,
+        [e.target.name]: e.target.value
+      });
+    }
+    console.log("Current Query State:", query);
+
+
+
+
+
+    return (
+      <div className="space-y-6">
+        <h1 className="text-3xl font-bold text-gray-800">Submit Query</h1>
+
+        <div className="bg-white rounded-lg shadow-md p-6 space-y-6 text-black text-left">
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">Query Subject</label>
+            <input
+              type="text"
+              name='querySubject'
+              value={query.querySubject}
+              onChange={handleChange}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              placeholder="Enter subject"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">Query Type</label>
+            <select className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              name='queryType'
+              value={query.queryType}
+              onChange={handleChange}
+            >
+              <option>Room Related</option>
+              <option>Payment Related</option>
+              <option>Maintenance Issue</option>
+              <option>Food & Mess</option>
+              <option>Other</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">Describe Your Query</label>
+            <textarea
+              name='queryDescription'
+              value={query.queryDescription}
+              onChange={handleChange}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent h-40"
+              placeholder="Please describe your query in detail..."
+            ></textarea>
+          </div>
+
+          <button
+            onClick={handleQuerySubmit}
+            className="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition-all duration-200 flex items-center justify-center space-x-2"
+          >
+            <MessageSquare className="w-5 h-5" />
+            <span>Submit Query</span>
+          </button>
         </div>
-
-        <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">Query Type</label>
-          <select className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
-            <option>Room Related</option>
-            <option>Payment Related</option>
-            <option>Maintenance Issue</option>
-            <option>Food & Mess</option>
-            <option>Other</option>
-          </select>
-        </div>
-
-        <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">Describe Your Query</label>
-          <textarea
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent h-40"
-            placeholder="Please describe your query in detail..."
-          ></textarea>
-        </div>
-
-        <button
-          onClick={handleQuerySubmit}
-          className="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition-all duration-200 flex items-center justify-center space-x-2"
-        >
-          <MessageSquare className="w-5 h-5" />
-          <span>Submit Query</span>
-        </button>
       </div>
-    </div>
-  );
+    )
+  }
 
   return (
     <div className="bg-gray-100 min-h-screen">

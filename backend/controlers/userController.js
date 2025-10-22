@@ -104,4 +104,87 @@ const getAllUsers = async (req, res) => {
     }
 };
 
-module.exports = { updateDetailsAndApplyRoom, fetchRoomAvailability,getUserData,getAllUsers };
+const queryRise=async(req,res)=>{
+    try{
+        const userId=req.params.id;
+        const {querySubject,queryType,queryDescription}=req.body;
+    
+        const user=await User.findById(userId);
+        if(!user){
+            return res.status(404).json({message:"User not found"});
+        }
+        user.querySubject=querySubject;
+        user.queryType=queryType;
+        user.queryDescription=queryDescription;
+
+        await user.save();
+        res.json({success:true,message:"Query response sent successfully"});
+    } catch (err) {
+        console.log("Error sending query response:", err);
+        res.status(500).json({ message: "Something went wrong" });
+    }
+}
+const queryResponse=async(req,res)=>{
+    try{
+        const userId=req.params.id;
+        const {queryResponse}=req.body;
+        const user=await User.findById(userId);
+        if(!user){
+            return res.status(404).json({message:"User not found"});
+        }
+        user.queryResponse=queryResponse;
+        await user.save();
+        res.json({success:true,message:"Query response sent successfully"});
+    } catch (err) {
+        console.log("Error sending query response:", err);
+        res.status(500).json({ message: "Something went wrong" });
+    }
+}
+
+// Update maintenance status
+const updateMaintenanceStatus = async (req, res) => {
+    try {
+        const userId = req.params.id;
+        const { status, assignedTo, response } = req.body;
+
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        // Update query status
+        if (status) {
+            user.queryStatus = status;
+        }
+
+        // Update assigned staff
+        if (assignedTo) {
+            user.assignedTo = assignedTo;
+        }
+
+        // Update response if provided
+        if (response) {
+            user.queryResponse = response;
+        }
+
+        await user.save();
+        res.json({ 
+            success: true, 
+            message: "Maintenance status updated successfully",
+            user 
+        });
+    } catch (err) {
+        console.log("Error updating maintenance status:", err);
+        res.status(500).json({ message: "Something went wrong" });
+    }
+};
+
+module.exports = { 
+    updateDetailsAndApplyRoom, 
+    fetchRoomAvailability,
+    getUserData,
+    getAllUsers,
+    queryResponse,
+    queryRise,
+    updateMaintenanceStatus 
+};

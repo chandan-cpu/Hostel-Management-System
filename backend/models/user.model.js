@@ -91,8 +91,35 @@ const userSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now
+  },
+  querySubject:{
+    type: String,
+    // required: true
+  },
+  queryType:{
+    type: String,
+    enum:["Room Related","Payment Related","Maintenance Issue","Food & Mess","Other"],
+  },
+  queryDescription:{
+    type: String,
+    // required: true
+  },
+  queryResponse:{
+    type: String,
+    default: ""
+  },
+  queryStatus:{
+    type: String,
+    enum:["pending", "in-progress", "completed", "rejected"],
+    default: "pending"
+  },
+  assignedTo:{
+    type: String,
+    default: ""
   }
-});
+  
+}
+, { timestamps: true });
 
 // Export model
 module.exports = mongoose.model("User", userSchema);

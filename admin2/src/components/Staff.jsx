@@ -1,63 +1,66 @@
 import React, { useState, useEffect } from 'react';
-import { UserPlus, Edit2, Trash2, Search, Phone, Mail, Calendar, MapPin, Users, Shield, AlertCircle, CheckCircle, X, Eye, Filter, Download } from 'lucide-react';
+import { UserPlus, Edit2, Trash2, Search, Phone, Mail, Calendar, MapPin, Users, Shield, AlertCircle, CheckCircle, X, Eye, Filter, Download,Check } from 'lucide-react';
+import axios from '../axios'
 
 export default function StaffManagement() {
-  const [staffList, setStaffList] = useState([
+  // const [staffList, setStaffList] = useState([
 
-    {
-      id: 2,
-      name: 'Ms. Priya Sharma',
-      role: 'Co-Warden',
-      hostelName: 'Ambedkar Hostel',
-      phone: '+91-9876543211',
-      email: 'priya.sharma@hostel.edu',
-      joinDate: '2021-08-20',
-      salary: 38000,
-      address: 'Staff Quarters, Block B',
-      status: 'active',
-      experience: '3 years'
-    },
-    {
-      id: 3,
-      name: 'Mr. Amit Patel',
-      role: 'Security Guard',
-      hostelName: 'Gandhi Hostel',
-      phone: '+91-9876543212',
-      email: 'amit.patel@hostel.edu',
-      joinDate: '2019-03-10',
-      salary: 25000,
-      address: 'Security Quarters',
-      status: 'active',
-      experience: '6 years'
-    },
-    {
-      id: 4,
-      name: 'Mrs. Sunita Devi',
-      role: 'Housekeeper',
-      hostelName: 'Ambedkar Hostel',
-      phone: '+91-9876543213',
-      email: 'sunita.devi@hostel.edu',
-      joinDate: '2022-01-05',
-      salary: 20000,
-      address: 'Staff Quarters, Block C',
-      status: 'active',
-      experience: '2 years'
-    },
-    {
-      id: 5,
-      name: 'Mr. Vikram Singh',
-      role: 'Maintenance Staff',
-      hostelName: 'Gandhi Hostel',
-      phone: '+91-9876543214',
-      email: 'vikram.singh@hostel.edu',
-      joinDate: '2020-11-22',
-      salary: 28000,
-      address: 'Maintenance Block',
-      status: 'active',
-      experience: '4 years'
-    }
-  ]);
+  //   {
+  //     id: 2,
+  //     name: 'Ms. Priya Sharma',
+  //     role: 'Co-Warden',
+  //     hostelName: 'Ambedkar Hostel',
+  //     phone: '+91-9876543211',
+  //     email: 'priya.sharma@hostel.edu',
+  //     joinDate: '2021-08-20',
+  //     salary: 38000,
+  //     address: 'Staff Quarters, Block B',
+  //     status: 'active',
+  //     experience: '3 years'
+  //   },
+  //   {
+  //     id: 3,
+  //     name: 'Mr. Amit Patel',
+  //     role: 'Security Guard',
+  //     hostelName: 'Gandhi Hostel',
+  //     phone: '+91-9876543212',
+  //     email: 'amit.patel@hostel.edu',
+  //     joinDate: '2019-03-10',
+  //     salary: 25000,
+  //     address: 'Security Quarters',
+  //     status: 'active',
+  //     experience: '6 years'
+  //   },
+  //   {
+  //     id: 4,
+  //     name: 'Mrs. Sunita Devi',
+  //     role: 'Housekeeper',
+  //     hostelName: 'Ambedkar Hostel',
+  //     phone: '+91-9876543213',
+  //     email: 'sunita.devi@hostel.edu',
+  //     joinDate: '2022-01-05',
+  //     salary: 20000,
+  //     address: 'Staff Quarters, Block C',
+  //     status: 'active',
+  //     experience: '2 years'
+  //   },
+  //   {
+  //     id: 5,
+  //     name: 'Mr. Vikram Singh',
+  //     role: 'Maintenance Staff',
+  //     hostelName: 'Gandhi Hostel',
+  //     phone: '+91-9876543214',
+  //     email: 'vikram.singh@hostel.edu',
+  //     joinDate: '2020-11-22',
+  //     salary: 28000,
+  //     address: 'Maintenance Block',
+  //     status: 'active',
+  //     experience: '4 years'
+  //   }
+  // ]);
 
+
+  const [staffList, setStaffList] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [editingStaff, setEditingStaff] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
@@ -78,6 +81,9 @@ export default function StaffManagement() {
     status: 'active',
     experience: ''
   });
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const roles = ['Warden', 'Co-Warden', 'Security Guard', 'Housekeeper', 'Maintenance Staff', 'Mess Manager', 'Accountant'];
   const statusTypes = ['active', 'on-leave', 'inactive'];
@@ -90,25 +96,38 @@ export default function StaffManagement() {
     }));
   };
 
-  const handleSubmit = (e) => {
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get('/admin/get-staff');
+      setStaffList(response.data.staff);
+    } catch (error) {
+      console.error('Error fetching staff data:', error);
+    }
+  }
+
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    if (editingStaff) {
-      // Update existing staff
-      setStaffList(staffList.map(staff => 
-        staff.id === editingStaff.id 
-          ? { ...formData, id: staff.id }
-          : staff
-      ));
-      alert('Staff updated successfully!');
-    } else {
-      // Add new staff
-      const newStaff = {
-        ...formData,
-        id: Math.max(...staffList.map(s => s.id), 0) + 1
-      };
-      setStaffList([...staffList, newStaff]);
-      alert('New staff added successfully!');
+
+
+    // Update existing staff
+    try {
+      if (editingStaff) {
+        const updateStaff = await axios.put(`/admin/update-staff/${editingStaff._id}`, formData);
+        setStaffList(prevList => prevList.map(staff => staff._id === editingStaff._id ? updateStaff.data : staff));
+        showNotification('Staff updated successfully!');
+        fetchData();
+      }
+      else {
+        const createStaff = await axios.post('/admin/add-staff', formData);
+        showNotification('Staff added successfully!');
+        fetchData();
+      }
+
+    } catch (error) {
+      console.error('Error submitting staff data:', error);
+      alert('Error: ' + (error.response?.data?.message || 'Failed to save staff data'));
     }
 
     setShowForm(false);
@@ -128,15 +147,22 @@ export default function StaffManagement() {
   };
 
   const handleEdit = (staff) => {
+    console.log('Editing staff:', staff);
     setEditingStaff(staff);
     setFormData(staff);
     setShowForm(true);
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to remove this staff member?')) {
-      setStaffList(staffList.filter(staff => staff.id !== id));
-      alert('Staff removed successfully!');
+      try {
+        await axios.delete(`/admin/delete-staff/${id}`);
+        showNotification('Staff removed successfully!');
+        fetchData();
+      } catch (error) {
+        console.error('Error deleting staff:', error);
+        showNotification('Error: ' + (error.response?.data?.message || 'Failed to delete staff'), 'error');
+      }
     }
   };
 
@@ -145,27 +171,27 @@ export default function StaffManagement() {
     setShowDetails(true);
   };
 
-  const filteredStaff = staffList.filter(staff => {
-    const matchesSearch = 
-      staff.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      staff.role.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      staff.hostelName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      staff.email.toLowerCase().includes(searchTerm.toLowerCase());
-    
-    const matchesRole = filterRole === 'all' || staff.role === filterRole;
-    const matchesStatus = filterStatus === 'all' || staff.status === filterStatus;
+  const filteredStaff = staffList?.filter(staff => {
+    const matchesSearch =
+      (staff?.name || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (staff?.role || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (staff?.hostelName || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (staff?.email || '').toLowerCase().includes(searchTerm.toLowerCase());
+
+    const matchesRole = filterRole === 'all' || staff?.role === filterRole;
+    const matchesStatus = filterStatus === 'all' || staff?.status === filterStatus;
 
     return matchesSearch && matchesRole && matchesStatus;
-  });
+  }) || [];
 
   // Statistics
-  const totalStaff = staffList.length;
-  const activeStaff = staffList.filter(s => s.status === 'active').length;
-  const onLeaveStaff = staffList.filter(s => s.status === 'on-leave').length;
-  const totalSalary = staffList.filter(s => s.status === 'active').reduce((sum, s) => sum + Number(s.salary), 0);
+  const totalStaff = staffList?.length || 0;
+  const activeStaff = staffList?.filter(s => s?.status === 'active').length || 0;
+  const onLeaveStaff = staffList?.filter(s => s?.status === 'on-leave').length || 0;
+  const totalSalary = staffList?.filter(s => s?.status === 'active').reduce((sum, s) => sum + Number(s?.salary || 0), 0) || 0;
 
   const getRoleBadgeColor = (role) => {
-    switch(role) {
+    switch (role) {
       case 'Warden': return 'bg-purple-100 text-purple-700 border-purple-300';
       case 'Co-Warden': return 'bg-indigo-100 text-indigo-700 border-indigo-300';
       case 'Security Guard': return 'bg-blue-100 text-blue-700 border-blue-300';
@@ -178,18 +204,39 @@ export default function StaffManagement() {
   };
 
   const getStatusBadgeColor = (status) => {
-    switch(status) {
+    switch (status) {
       case 'active': return 'bg-green-100 text-green-700 border-green-300';
       case 'on-leave': return 'bg-yellow-100 text-yellow-700 border-yellow-300';
       case 'inactive': return 'bg-red-100 text-red-700 border-red-300';
       default: return 'bg-gray-100 text-gray-700 border-gray-300';
     }
   };
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+  const [toastType, setToastType] = useState('success'); // 'success' or 'error'
+
+  const showNotification = (message, type = 'success') => {
+    setToastMessage(message);
+    setToastType(type);
+    setShowToast(true);
+    setTimeout(() => setShowToast(false), 1000);
+  };
 
   return (
     <div className="space-y-6">
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        {showToast && (
+          <div className={`fixed top-4 right-4 z-50 flex items-center gap-3 px-6 py-4 rounded-xl shadow-2xl transform transition-all duration-300 ${toastType === 'success' ? 'bg-green-500' :
+            toastType === 'error' ? 'bg-red-500' :
+              'bg-yellow-500'
+            } text-white animate-slide-in-right`}>
+            {toastType === 'success' ? <Check size={20} /> :
+              toastType === 'error' ? <AlertCircle size={20} /> :
+                <AlertCircle size={20} />}
+            <span className="font-medium">{toastMessage}</span>
+          </div>
+        )}
 
         <button
           onClick={() => {
@@ -489,49 +536,51 @@ export default function StaffManagement() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
+
+              {/* filtered or unfiltered staff list */}
               {filteredStaff.map((staff) => (
-                <tr key={staff.id} className="hover:bg-gray-50 transition-colors">
+                <tr key={staff._id || staff.id} className="hover:bg-gray-50 transition-colors">
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center shadow-md">
-                        <span className="text-white font-bold text-sm">{staff.name.charAt(0)}</span>
+                        <span className="text-white font-bold text-sm">{staff?.name?.charAt(0) || '?'}</span>
                       </div>
                       <div>
-                        <div className="font-semibold text-gray-900">{staff.name}</div>
-                        <div className="text-sm text-gray-500">{staff.experience}</div>
+                        <div className="font-semibold text-gray-900">{staff?.name || 'N/A'}</div>
+                        <div className="text-sm text-gray-500">{staff?.experience || 'N/A'}</div>
                       </div>
                     </div>
                   </td>
                   <td className="px-6 py-4">
-                    <span className={`px-3 py-1.5 rounded-full text-xs font-semibold border ${getRoleBadgeColor(staff.role)}`}>
-                      {staff.role}
+                    <span className={`px-3 py-1.5 rounded-full text-xs font-semibold border ${getRoleBadgeColor(staff?.role)}`}>
+                      {staff?.role || 'N/A'}
                     </span>
                   </td>
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-2 text-gray-700">
                       <MapPin size={16} className="text-gray-400" />
-                      <span className="font-medium">{staff.hostelName}</span>
+                      <span className="font-medium">{staff?.hostelName || 'N/A'}</span>
                     </div>
                   </td>
                   <td className="px-6 py-4">
                     <div className="space-y-1">
                       <div className="flex items-center gap-2 text-sm text-gray-600">
                         <Phone size={14} className="text-gray-400" />
-                        {staff.phone}
+                        {staff?.phone || 'N/A'}
                       </div>
                       <div className="flex items-center gap-2 text-sm text-gray-600">
                         <Mail size={14} className="text-gray-400" />
-                        {staff.email}
+                        {staff?.email || 'N/A'}
                       </div>
                     </div>
                   </td>
                   <td className="px-6 py-4">
-                    <div className="font-bold text-gray-900">₹{Number(staff.salary).toLocaleString()}</div>
+                    <div className="font-bold text-gray-900">₹{Number(staff?.salary || 0).toLocaleString()}</div>
                     <div className="text-xs text-gray-500">per month</div>
                   </td>
                   <td className="px-6 py-4">
-                    <span className={`px-3 py-1.5 rounded-full text-xs font-semibold border ${getStatusBadgeColor(staff.status)}`}>
-                      {staff.status.charAt(0).toUpperCase() + staff.status.slice(1)}
+                    <span className={`px-3 py-1.5 rounded-full text-xs font-semibold border ${getStatusBadgeColor(staff?.status)}`}>
+                      {staff?.status ? (staff.status.charAt(0).toUpperCase() + staff.status.slice(1)) : 'N/A'}
                     </span>
                   </td>
                   <td className="px-6 py-4">
@@ -551,7 +600,7 @@ export default function StaffManagement() {
                         <Edit2 size={18} />
                       </button>
                       <button
-                        onClick={() => handleDelete(staff.id)}
+                        onClick={() => handleDelete(staff._id || staff.id)}
                         className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-all"
                         title="Delete"
                       >
@@ -674,11 +723,5 @@ export default function StaffManagement() {
     </div>
   );
 }
-// import React from 'react'
 
-// export default function StaffManagement() {
-//   return (
-//     <div className=''>Staff</div>
-//   )
-// }
 

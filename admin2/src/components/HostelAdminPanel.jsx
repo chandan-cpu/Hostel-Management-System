@@ -107,18 +107,6 @@ export default function HostelAdminPanel() {
   }
 
   const handleUpdateHostel = async () => {
-    // setLoading(true);
-    // setTimeout(() => {
-    //   setHostels(hostels.map(h => 
-    //     h.id === editingHostel.id 
-    //       ? { ...formData, id: editingHostel.id, lastUpdated: new Date().toISOString().split('T')[0] }
-    //       : h
-    //   ));
-    //   setEditingHostel(null);
-    //   setShowForm(false);
-    //   setLoading(false);
-    //   showNotification('Hostel room updated successfully!');
-    // }, 800);
     try {
       console.log('Editing hostel:', editingHostel);
       console.log('Updating hostel with ID:', editingHostel._id);

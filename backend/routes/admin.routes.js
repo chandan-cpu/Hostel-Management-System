@@ -1,9 +1,8 @@
 const express=require('express');
-const { addRoom, getRooms, addStudentToRoom, getStudents, updateStudentFees, BookingData, getBooking, updateBookingStatus, getFinanceData, updatePaymentStatus, getFinancialSummary, exportFinanceReport, runOverdueCheck, generateMonthlyPayments } = require('../controlers/admin.con');
-const {createOrUpdateRoom, showRooms, UpdateRoom, deleteRoom} = require('../controlers/adminmanag.con');
-const {getPendingRequests}=require('../controlers/getPendingRequest')
-const {approveOrRejectByRoomNumber}=require('../controlers/getPendingRequest');
-const { addStaff, getStaff, updateStaff ,deleteStaff} = require('../controlers/Staff.controller');
+const {createOrUpdateRoom, showRooms, UpdateRoom, deleteRoom} = require('../controllers/adminmanag.controller');
+const {getPendingRequests}=require('../controllers/getPendingRequest.controller')
+const {approveOrRejectByRoomNumber}=require('../controllers/getPendingRequest.controller');
+const { addStaff, getStaff, updateStaff ,deleteStaff} = require('../controllers/Staff.controller');
 
 route=express.Router();
 

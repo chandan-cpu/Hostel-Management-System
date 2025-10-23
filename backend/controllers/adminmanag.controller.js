@@ -1,4 +1,4 @@
-const Room = require("../models/room2.model");
+const Room = require("../models/room.model");
 
 // Admin creates or updates a room
 const createOrUpdateRoom = async (req, res) => {

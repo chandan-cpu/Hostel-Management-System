@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const { updateDetailsAndApplyRoom, getUserData,getAllUsers, queryResponse, queryRise, updateMaintenanceStatus} = require("../controlers/userController");
-const {updatePaymentDetails}=require('../controlers/paymentcontroller');
-const {fetchRoomAvailability}=require('../controlers/userController');
+const { updateDetailsAndApplyRoom, getUserData,getAllUsers, queryResponse, queryRise, updateMaintenanceStatus} = require("../controllers/user.controller2");
+const {updatePaymentDetails}=require('../controllers/payment.controller');
+const {fetchRoomAvailability}=require('../controllers/user.controller2');
 
 // Update profile details
 console.log("reached at routes");

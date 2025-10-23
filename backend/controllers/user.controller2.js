@@ -1,5 +1,5 @@
 const User = require("../models/user.model");
-const Room = require("../models/room2.model");
+const Room = require("../models/room.model");
 
 const updateDetailsAndApplyRoom = async (req, res) => {
     try {

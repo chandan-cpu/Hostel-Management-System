@@ -1,7 +1,7 @@
 import image01 from '../assets/hostelImages/image01.jpg';
 import image02 from '../assets/hostelImages/image02.jpg';
 import image03 from '../assets/hostelImages/image03.jpg';
-import { Shield, Wifi, UtensilsCrossed, WashingMachine, BookOpen, Dumbbell } from 'lucide-react';
+import { Shield, Wifi, UtensilsCrossed, WashingMachine, BookOpen, Dumbbell, Bed, Sofa, CarFront } from 'lucide-react';
 
 export const SLIDES = [
   {
@@ -72,39 +72,27 @@ export const FEATURES = [
 export const GALLERY_ITEMS = [
   {
     gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-    icon: '🛏️',
+    icon: Bed,
     title: 'Deluxe Rooms',
     description: 'Spacious and comfortable'
   },
   {
     gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-    icon: '🍴',
+    icon: UtensilsCrossed,
     title: 'Dining Area',
     description: 'Clean and hygienic'
   },
   {
     gradient: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
-    icon: '🛋️',
+    icon: Sofa,
     title: 'Common Area',
     description: 'Relax and socialize'
   },
   {
-    gradient: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
-    icon: '📖',
-    title: 'Study Room',
-    description: 'Focus on your goals'
-  },
-  {
     gradient: 'linear-gradient(135deg, #30cfd0 0%, #330867 100%)',
-    icon: '🏋️',
+    icon: Dumbbell,
     title: 'Fitness Center',
     description: 'Stay healthy and fit'
-  },
-  {
-    gradient: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)',
-    icon: '🅿️',
-    title: 'Parking Area',
-    description: 'Safe vehicle parking'
   }
 ];
 

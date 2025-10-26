@@ -72,7 +72,7 @@ const Navbar = ({ scrollToSection }) => {
           </li>
           <li>
             <a 
-              href="http://localhost:5173" 
+              href="https://hostel-management-system-admin2.onrender.com" 
               target="_blank" 
               rel="noopener noreferrer" 
               className="admin-btn"

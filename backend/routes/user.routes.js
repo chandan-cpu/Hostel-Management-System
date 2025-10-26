@@ -4,8 +4,6 @@ const { updateDetailsAndApplyRoom, getUserData,getAllUsers, queryResponse, query
 const {updatePaymentDetails}=require('../controllers/payment.controller');
 const {fetchRoomAvailability}=require('../controllers/user.controller2');
 
-// Update profile details
-console.log("reached at routes");
 router.put("/:id/details-apply", updateDetailsAndApplyRoom);
 router.put("/:id/payment", updatePaymentDetails);
 router.get("/rooms", fetchRoomAvailability);

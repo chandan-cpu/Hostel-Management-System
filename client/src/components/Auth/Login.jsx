@@ -17,9 +17,6 @@ export default function LoginPage() {
     e.preventDefault();
     try{
       const res=await axios.post('/auth/login',input);
-      console.log('Login successful:', res.data);
-      // alert(`Login successful! Welcome back, ${res.data.user.name}`);
-      // Store user data in localStorage
       localStorage.setItem('user', JSON.stringify(res.data));
       navigate("/dashboard/" + res.data.userId);
     } catch (error) {
@@ -29,9 +26,7 @@ export default function LoginPage() {
   };
   const handleChange = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
-  }
-
-  //Send data to the backend for authentication 
+  } 
 
   return (
     <div style={{ minHeight: 'calc(100vh - 70px)', width: '100%' }} className="bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center px-4 py-8 overflow-x-hidden">
@@ -210,7 +205,6 @@ export default function LoginPage() {
           </div>
 
           <button
-            // onClick={handleSubmit}
             style={{
               width: '100%',
               backgroundColor: '#4f46e5',

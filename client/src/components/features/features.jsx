@@ -1,6 +1,6 @@
 import React from 'react';
 import { FEATURES } from '../../data/constants';
-import './Features.css';
+import './features.css';
 
 const Features = () => {
   return (

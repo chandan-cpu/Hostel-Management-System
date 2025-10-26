@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Home, FileText, CreditCard, MessageSquare, User, Building2, Calendar, DollarSign, AlertCircle, CheckCircle } from 'lucide-react';
+import { Home, FileText, CreditCard, MessageSquare, User, Building2, Calendar, DollarSign, AlertCircle, CheckCircle, Menu } from 'lucide-react';
 import './HostelDashboard.css';
 import axios from "../../axios"
 import DetailsPage from './DetailsPage';
@@ -19,7 +19,6 @@ export default function HostelDashboard() {
   const Sidebar = () => {
     const [studentInfo, setStudentInfo] = useState({});
     const fetchData = async () => {
-      // Fetch data from API
       const userstr = localStorage.getItem('user');
       if (!userstr) {
         alert('User not found. Please login again.');
@@ -28,10 +27,7 @@ export default function HostelDashboard() {
       const user = JSON.parse(userstr);
       const userId = user.userId || user.id || user._id;
       const res = await axios.get(`user/${userId}/data`);
-      console.log("Student Data", res.data);
-      // Handle response
       if (res.status === 200) {
-        // Update state with user data
         setStudentInfo(res.data.user);
       }
     }
@@ -40,48 +36,58 @@ export default function HostelDashboard() {
       fetchData();
     }, [])
 
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
+    const toggleSidebar = () => {
+      setIsSidebarOpen(!isSidebarOpen);
+    };
 
     return (
-      <div className="w-64 bg-gradient-to-b from-blue-900 to-blue-800 text-white h-screen fixed left-0 top-0 shadow-2xl">
-        <div className="p-6 border-b border-blue-700">
-          <div className="flex items-center space-x-3">
-            <Building2 className="w-8 h-8" />
-            <div>
-              <h2 className="text-xl font-bold">{studentInfo.name}</h2>
-              <p className="text-xs text-blue-200">Student Dashboard</p>
+      <>
+        <button onClick={toggleSidebar} className=' md:hidden w-10 h-10 fixed top-4 left-4 z-50 bg-blue-800 p-2 rounded-lg'> <Menu size={24} className="w-6 h-6" /></button>
+        <div className={`w-64 bg-gradient-to-b from-blue-900 to-blue-800 text-white h-screen fixed left-0 top-0 shadow-2xl
+    transform transition-transform duration-300 z-40
+    ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} 
+    md:translate-x-0 md:block
+    flex flex-col space-y-6`}>
+          <div className="p-6 border-b border-blue-700 ">
+            <div className="flex items-center space-x-3">
+              <Building2 className="w-8 h-8" />
+              <div>
+                <h2 className="text-xl font-bold">{studentInfo.name}</h2>
+                <p className="text-xs text-blue-200">Student Dashboard</p>
+              </div>
             </div>
           </div>
-        </div>
 
-        <nav className="mt-6">
-          {[
-            { id: 'home', icon: Home, label: 'Home' },
-            { id: 'details', icon: FileText, label: 'Fill All Details' },
-            { id: 'payment', icon: CreditCard, label: 'Payment Details' },
-            { id: 'query', icon: MessageSquare, label: 'Query Rise' }
-          ].map(item => (
-            <button
-              key={item.id}
-              onClick={() => setActiveTab(item.id)}
-              className={`w-full flex items-center space-x-3 px-6 py-4 transition-all duration-200 ${activeTab === item.id
-                ? 'bg-blue-700 border-l-4 border-white'
-                : 'hover:bg-blue-800'
-                }`}
-            >
-              <item.icon className="w-5 h-5" />
-              <span className="font-medium">{item.label}</span>
-            </button>
-          ))}
-        </nav>
-      </div>
+          <nav className="mt-6">
+            {[
+              { id: 'home', icon: Home, label: 'Home' },
+              { id: 'details', icon: FileText, label: 'Fill All Details' },
+              { id: 'payment', icon: CreditCard, label: 'Payment Details' },
+              { id: 'query', icon: MessageSquare, label: 'Query Rise' }
+            ].map(item => (
+              <button
+                key={item.id}
+                onClick={() => setActiveTab(item.id)}
+                className={`w-full flex items-center space-x-3 px-6 py-4 transition-all duration-200 ${activeTab === item.id
+                  ? 'bg-blue-700 border-l-4 border-white'
+                  : 'hover:bg-blue-800'
+                  }`}
+              >
+                <item.icon className="w-5 h-5" />
+                <span className="font-medium">{item.label}</span>
+              </button>
+            ))}
+          </nav>
+        </div>
+      </>
     )
   };
 
   const HomePage = () => {
     const [studentInfo, setStudentInfo] = useState({});
     const fetchData = async () => {
-      // Fetch data from API
       const userstr = localStorage.getItem('user');
       if (!userstr) {
         alert('User not found. Please login again.');
@@ -90,10 +96,7 @@ export default function HostelDashboard() {
       const user = JSON.parse(userstr);
       const userId = user.userId || user.id || user._id;
       const res = await axios.get(`user/${userId}/data`);
-      console.log("Student Data", res.data);
-      // Handle response
       if (res.status === 200) {
-        // Update state with user data
         setStudentInfo(res.data.user);
       }
     }
@@ -104,11 +107,11 @@ export default function HostelDashboard() {
 
 
     return (
-      <div className="space-y-6">
+      <div className="flex flex-col space-y-6 items-start absolute top-7 left-0 w-full md:ml-64 p-8">
         <h1 className="text-3xl font-bold text-gray-800">Welcome Back, {studentInfo.name}!</h1>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
-          <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-blue-600">
+        <div className="flex flex-wrap gap-6 text-left w-full">
+              <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-blue-600 w-full md:w-96">
             <div className="flex items-center space-x-3 mb-4">
               <User className="w-8 h-8 text-blue-600" />
               <h2 className="text-xl font-semibold text-gray-800">Personal Information</h2>
@@ -121,7 +124,7 @@ export default function HostelDashboard() {
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-green-600">
+          <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-green-600 w-full md:w-80">
             <div className="flex items-center space-x-3 mb-4">
               <DollarSign className="w-8 h-8 text-green-600" />
               <h2 className="text-xl font-semibold text-gray-800">Payment Status</h2>
@@ -140,7 +143,7 @@ export default function HostelDashboard() {
           </div>
         </div>
 
-        <div className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg shadow-md p-6">
+        <div className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg shadow-md p-6 w-full md:w-3/4">
           <div className="flex items-center space-x-3 mb-4">
             <AlertCircle className="w-8 h-8 text-blue-600" />
             <h2 className="text-xl font-semibold text-gray-800">Quick Actions</h2>
@@ -182,17 +185,17 @@ export default function HostelDashboard() {
                   <div className="flex-1">
                     <h3 className="font-semibold text-gray-900 mb-1">{studentInfo.querySubject}</h3>
                     <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${studentInfo.queryType === 'Room Related' ? 'bg-blue-100 text-blue-800' :
-                        studentInfo.queryType === 'Payment Related' ? 'bg-green-100 text-green-800' :
-                          studentInfo.queryType === 'Maintenance Issue' ? 'bg-red-100 text-red-800' :
-                            studentInfo.queryType === 'Food & Mess' ? 'bg-orange-100 text-orange-800' :
-                              'bg-gray-100 text-gray-800'
+                      studentInfo.queryType === 'Payment Related' ? 'bg-green-100 text-green-800' :
+                        studentInfo.queryType === 'Maintenance Issue' ? 'bg-red-100 text-red-800' :
+                          studentInfo.queryType === 'Food & Mess' ? 'bg-orange-100 text-orange-800' :
+                            'bg-gray-100 text-gray-800'
                       }`}>
                       {studentInfo.queryType}
                     </span>
                   </div>
                   <span className={`px-3 py-1 rounded-full text-xs font-semibold ${studentInfo.queryResponse
-                      ? 'bg-green-100 text-green-700 border border-green-300'
-                      : 'bg-yellow-100 text-yellow-700 border border-yellow-300'
+                    ? 'bg-green-100 text-green-700 border border-green-300'
+                    : 'bg-yellow-100 text-yellow-700 border border-yellow-300'
                     }`}>
                     {studentInfo.queryResponse ? 'Replied' : 'Pending'}
                   </span>
@@ -235,7 +238,6 @@ export default function HostelDashboard() {
 
     const handleSubmit = async () => {
       try {
-        // Validate payment amount
         if (!paymentData.paidAmount || paymentData.paidAmount <= 0) {
           alert('Please enter a valid payment amount');
           return;
@@ -255,27 +257,17 @@ export default function HostelDashboard() {
           return;
         }
 
-        // Correct syntax: combine paymentData and totalFee into one object
         const paymentPayload = {
           userId: userId,
           paidAmount: Number(paymentData.paidAmount),
-          totalFee: totalFee,
-          // paymentDate: new Date().toISOString()
+          totalFee: totalFee
         };
-
-        console.log('Submitting payment:', paymentPayload);
 
         const res = await axios.put(`user/${userId}/payment`, paymentPayload);
 
-        console.log('Payment response:', res.data);
         alert('Payment submitted successfully!');
 
-        // Optionally reset the form or update UI
-        // setPaymentData({ paidAmount: 0 });
-
       } catch (err) {
-        console.error("Payment submission error:", err);
-
         if (err.response) {
           const errorMsg = err.response.data?.message || err.response.data?.error || 'Payment failed';
           alert(`Error: ${errorMsg}`);
@@ -388,14 +380,13 @@ export default function HostelDashboard() {
   };
 
   const QueryPage = () => {
-     const [query, setQuery] = useState({
+    const [query, setQuery] = useState({
       querySubject: '',
       queryType: '',
       queryDescription: ''
     });
-  const [studentInfo, setStudentInfo] = useState({});
+    const [studentInfo, setStudentInfo] = useState({});
     const fetchData = async () => {
-      // Fetch data from API
       const userstr = localStorage.getItem('user');
       if (!userstr) {
         alert('User not found. Please login again.');
@@ -403,9 +394,7 @@ export default function HostelDashboard() {
       }
       const user = JSON.parse(userstr);
       const userId = user.userId || user.id || user._id;
-      console.log("User ID:", userId);
       setStudentInfo(user);
-
     }
     useEffect(() => {
       fetchData();
@@ -417,22 +406,19 @@ export default function HostelDashboard() {
       try {
         const userId = studentInfo.userId || studentInfo.id || studentInfo._id;
         const res = await axios.put('/user/query-rise/' + userId, query);
-        console.log("Query Rise Response:", res.data);
       } catch (error) {
         console.error("Error submitting query:", error);
-        
       }
-     
+
       setQuery('');
     };
-   
+
     const handleChange = (e) => {
       setQuery({
         ...query,
         [e.target.name]: e.target.value
       });
     }
-    console.log("Current Query State:", query);
 
 
 

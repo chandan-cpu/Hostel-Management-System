@@ -21,18 +21,14 @@ const DetailsPage = ({ setActiveTab }) => {
     })
     const [selectedRoom, setSelectedRoom] = useState('');
     const handleRoomSelect = (room) => {
-        // e.preventDefault();
         if (room.status !== 'full') {
             setSelectedRoom(room.roomNumber);
             setFormData(prevData => ({ ...prevData, appliedRoom: room.roomNumber }));
         }
     };
     const fetchRoomAvailability = async () => {
-        // This function can be expanded to fetch real-time data from backend
         const res = await axios.get('/user/rooms');
         setRooms(res.data.rooms);
-
-        console.log(res.data.rooms);
     }
     useEffect(() => {
         fetchRoomAvailability();
@@ -58,15 +54,12 @@ const DetailsPage = ({ setActiveTab }) => {
     };
 
     const handleFormChange = (e) => {
-        // e.preventDefault();
         const { name, value } = e.target;
-
         setFormData({ ...formData, [name]: value })
     }
 
     const handleFormSubmit = async () => {
         try {
-            // Get user data from localStorage safely
             const userStr = localStorage.getItem('user');
             if (!userStr) {
                 alert('User not found. Please login again.');
@@ -81,58 +74,41 @@ const DetailsPage = ({ setActiveTab }) => {
                 return;
             }
 
-            // Validate all required fields
             if (!formData.address || !formData.guardianName || !formData.guardianContact ||
                 !formData.course || !formData.year || !formData.gender || !formData.appliedRoom) {
                 alert('Please fill all the required fields before submitting.');
                 return;
             }
 
-            // Validate phone number (basic check)
             if (formData.guardianContact.length < 10) {
                 alert('Please enter a valid guardian contact number (at least 10 digits).');
                 return;
             }
 
-            console.log('Submitting form data:', formData);
-            console.log('User ID:', userId);
-
-            // Change PUT to POST (or keep PUT if backend expects PUT)
             const res = await axios.put(`/user/${userId}/details-apply`, formData);
 
-            console.log('Form submitted successfully:', res.data);
             alert('Details submitted successfully! Your application has been received.');
-
-            // Optionally clear form or redirect
-            setActiveTab('payment'); // Switch to payment tab after submission
+            setActiveTab('payment');
 
         } catch (error) {
-            console.error('Error submitting form:', error);
-
             if (error.response) {
-                // Server responded with error status
                 const errorMsg = error.response.data?.message || error.response.data?.error || 'Failed to submit details';
                 alert(`Error: ${errorMsg}`);
-                console.error('Server error:', error.response.data);
             } else if (error.request) {
-                // Request made but no response
                 alert('Network error. Please check your connection and try again.');
-                console.error('Network error:', error.request);
             } else {
-                // Something else went wrong
                 alert('Error submitting form. Please try again later.');
-                console.error('Error:', error.message);
             }
         }
     };
     const handleHostelChange = (e) => {
-    setSelectedHostel(e.target.value);
-    setSelectedRoom(null); // reset room selection when hostel changes
-  };
+        setSelectedHostel(e.target.value);
+        setSelectedRoom(null);
+    };
 
-  const filteredRooms = selectedHostel
-    ? rooms.filter((r) => r.hostelName === selectedHostel)
-    : [];
+    const filteredRooms = selectedHostel
+        ? rooms.filter((r) => r.hostelName === selectedHostel)
+        : [];
 
 
 

@@ -11,19 +11,17 @@ const PORT=process.env.PORT || 3000;
 
 
 
-app.use(cors({
-  origin: function(origin, callback) {
-    if (!origin) return callback(null, true); // allow server-to-server or Postman requests
-    // Allow any localhost port
-    if (/^http:\/\/localhost:\d+$/.test(origin)) {
-      return callback(null, true);
-    }
-    // Block other origins
-    return callback(new Error('Not allowed by CORS'), false);
-  },
-  methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
-  credentials: true // enable if using cookies or auth headers
-}));
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3000",
+      "https://hostel-management-system-client1.onrender.com",
+    ],
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+    credentials: true,
+  })
+);
+
 
 app.use(cookieParser());
 app.use(express.json());

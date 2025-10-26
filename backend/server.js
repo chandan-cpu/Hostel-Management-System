@@ -13,12 +13,8 @@ const PORT=process.env.PORT || 3000;
 
 app.use(
   cors({
-    origin: [
-      "http://localhost:3000",
-      "https://hostel-management-system-client1.onrender.com",
-    ],
+    origin: "*", // allow all domains
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
-    credentials: true,
   })
 );
 

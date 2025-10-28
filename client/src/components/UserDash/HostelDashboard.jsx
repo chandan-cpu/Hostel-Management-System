@@ -123,16 +123,16 @@ export default function HostelDashboard() {
 
 
     return (
-      <div className="flex flex-col space-y-6 items-start absolute top-7 left-0 right-0 md:ml-64 p-8">
-        <h1 className="text-3xl font-bold text-gray-800">Welcome Back, {studentInfo.name}!</h1>
+      <div className="flex flex-col space-y-4 md:space-y-6 items-start absolute top-7 left-0 right-0 md:ml-64 p-4 md:p-8">
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-800">Welcome Back, {studentInfo.name}!</h1>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-          <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-blue-600">
-            <div className="flex items-center space-x-3 mb-4">
-              <User className="w-8 h-8 text-blue-600" />
-              <h2 className="text-xl font-semibold text-gray-800">Personal Information</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 w-full">
+          <div className="bg-white rounded-lg shadow-md p-4 md:p-6 border-l-4 border-blue-600">
+            <div className="flex items-center space-x-2 md:space-x-3 mb-3 md:mb-4">
+              <User className="w-6 h-6 md:w-8 md:h-8 text-blue-600" />
+              <h2 className="text-lg md:text-xl font-semibold text-gray-800">Personal Information</h2>
             </div>
-            <div className="space-y-2 text-gray-600">
+            <div className="space-y-2 text-sm md:text-base text-gray-600">
               <p><span className="font-semibold">Name:</span> {studentInfo.name}</p>
               <p><span className="font-semibold">Roll No:</span> {studentInfo.rollNo}</p>
               <p><span className="font-semibold">Email:</span> {studentInfo.email}</p>
@@ -140,18 +140,18 @@ export default function HostelDashboard() {
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-green-600">
-            <div className="flex items-center space-x-3 mb-4">
-              <DollarSign className="w-8 h-8 text-green-600" />
-              <h2 className="text-xl font-semibold text-gray-800">Payment Status</h2>
+          <div className="bg-white rounded-lg shadow-md p-4 md:p-6 border-l-4 border-green-600">
+            <div className="flex items-center space-x-2 md:space-x-3 mb-3 md:mb-4">
+              <DollarSign className="w-6 h-6 md:w-8 md:h-8 text-green-600" />
+              <h2 className="text-lg md:text-xl font-semibold text-gray-800">Payment Status</h2>
             </div>
-            <div className="space-y-2 text-gray-600">
+            <div className="space-y-2 text-sm md:text-base text-gray-600">
               <p><span className="font-semibold">Total Fee:</span> ₹{studentInfo.totalFee}</p>
               <p><span className="font-semibold">Paid Amount:</span> ₹{studentInfo.paidAmount}</p>
               <p><span className="font-semibold">Remaining:</span> ₹{studentInfo.remainingAmount}</p>
-              <div className="mt-3 w-full bg-gray-200 rounded-full h-3">
+              <div className="mt-3 w-full bg-gray-200 rounded-full h-2 md:h-3">
                 <div
-                  className="bg-green-600 h-3 rounded-full transition-all duration-500"
+                  className="bg-green-600 h-2 md:h-3 rounded-full transition-all duration-500"
                   style={{ width: `${(studentInfo.paidAmount / studentInfo.totalFee) * 100}%` }}
                 ></div>
               </div>
@@ -159,27 +159,27 @@ export default function HostelDashboard() {
           </div>
         </div>
 
-        <div className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg shadow-md p-6 w-full md:w-3/4">
-          <div className="flex items-center space-x-3 mb-4">
-            <AlertCircle className="w-8 h-8 text-blue-600" />
-            <h2 className="text-xl font-semibold text-gray-800">Quick Actions</h2>
+        <div className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg shadow-md p-4 md:p-6 w-full md:w-3/4">
+          <div className="flex items-center space-x-2 md:space-x-3 mb-3 md:mb-4">
+            <AlertCircle className="w-6 h-6 md:w-8 md:h-8 text-blue-600" />
+            <h2 className="text-lg md:text-xl font-semibold text-gray-800">Quick Actions</h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
             <button
               onClick={() => setActiveTab('details')}
-              className="bg-white hover:bg-blue-50 text-blue-700 font-semibold py-3 px-4 rounded-lg shadow transition-all duration-200"
+              className="bg-white hover:bg-blue-50 text-blue-700 font-semibold py-2 md:py-3 px-3 md:px-4 text-sm md:text-base rounded-lg shadow transition-all duration-200"
             >
               Complete Your Profile
             </button>
             <button
               onClick={() => setActiveTab('payment')}
-              className="bg-white hover:bg-green-50 text-green-700 font-semibold py-3 px-4 rounded-lg shadow transition-all duration-200"
+              className="bg-white hover:bg-green-50 text-green-700 font-semibold py-2 md:py-3 px-3 md:px-4 text-sm md:text-base rounded-lg shadow transition-all duration-200"
             >
               Make Payment
             </button>
             <button
               onClick={() => setActiveTab('query')}
-              className="bg-white hover:bg-purple-50 text-purple-700 font-semibold py-3 px-4 rounded-lg shadow transition-all duration-200"
+              className="bg-white hover:bg-purple-50 text-purple-700 font-semibold py-2 md:py-3 px-3 md:px-4 text-sm md:text-base rounded-lg shadow transition-all duration-200"
             >
               Submit Query
             </button>
@@ -188,19 +188,19 @@ export default function HostelDashboard() {
 
         {/* My Queries Section */}
         {studentInfo.querySubject && (
-          <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-purple-600">
-            <div className="flex items-center space-x-3 mb-4">
-              <MessageSquare className="w-8 h-8 text-purple-600" />
-              <h2 className="text-xl font-semibold text-gray-800">My Query</h2>
+          <div className="bg-white rounded-lg shadow-md p-4 md:p-6 border-l-4 border-purple-600 w-full">
+            <div className="flex items-center space-x-2 md:space-x-3 mb-3 md:mb-4">
+              <MessageSquare className="w-6 h-6 md:w-8 md:h-8 text-purple-600" />
+              <h2 className="text-lg md:text-xl font-semibold text-gray-800">My Query</h2>
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-3 md:space-y-4">
               {/* Query Details */}
-              <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
-                <div className="flex items-start justify-between mb-2">
+              <div className="bg-gray-50 rounded-lg p-3 md:p-4 border border-gray-200">
+                <div className="flex items-start justify-between mb-2 flex-col md:flex-row gap-2">
                   <div className="flex-1">
-                    <h3 className="font-semibold text-gray-900 mb-1">{studentInfo.querySubject}</h3>
-                    <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${studentInfo.queryType === 'Room Related' ? 'bg-blue-100 text-blue-800' :
+                    <h3 className="text-sm md:text-base font-semibold text-gray-900 mb-1">{studentInfo.querySubject}</h3>
+                    <span className={`inline-block px-2 md:px-3 py-1 rounded-full text-xs font-semibold ${studentInfo.queryType === 'Room Related' ? 'bg-blue-100 text-blue-800' :
                       studentInfo.queryType === 'Payment Related' ? 'bg-green-100 text-green-800' :
                         studentInfo.queryType === 'Maintenance Issue' ? 'bg-red-100 text-red-800' :
                           studentInfo.queryType === 'Food & Mess' ? 'bg-orange-100 text-orange-800' :
@@ -209,30 +209,30 @@ export default function HostelDashboard() {
                       {studentInfo.queryType}
                     </span>
                   </div>
-                  <span className={`px-3 py-1 rounded-full text-xs font-semibold ${studentInfo.queryResponse
+                  <span className={`px-2 md:px-3 py-1 rounded-full text-xs font-semibold ${studentInfo.queryResponse
                     ? 'bg-green-100 text-green-700 border border-green-300'
                     : 'bg-yellow-100 text-yellow-700 border border-yellow-300'
                     }`}>
                     {studentInfo.queryResponse ? 'Replied' : 'Pending'}
                   </span>
                 </div>
-                <p className="text-sm text-gray-700 mt-2">{studentInfo.queryDescription}</p>
+                <p className="text-xs md:text-sm text-gray-700 mt-2">{studentInfo.queryDescription}</p>
               </div>
 
               {/* Admin Response */}
               {studentInfo.queryResponse ? (
-                <div className="bg-green-50 rounded-lg p-4 border-l-4 border-green-500">
+                <div className="bg-green-50 rounded-lg p-3 md:p-4 border-l-4 border-green-500">
                   <div className="flex items-center space-x-2 mb-2">
-                    <CheckCircle className="w-5 h-5 text-green-600" />
-                    <h4 className="font-semibold text-green-900">Admin Response</h4>
+                    <CheckCircle className="w-4 h-4 md:w-5 md:h-5 text-green-600" />
+                    <h4 className="text-sm md:text-base font-semibold text-green-900">Admin Response</h4>
                   </div>
-                  <p className="text-sm text-green-800">{studentInfo.queryResponse}</p>
+                  <p className="text-xs md:text-sm text-green-800">{studentInfo.queryResponse}</p>
                 </div>
               ) : (
-                <div className="bg-yellow-50 rounded-lg p-4 border-l-4 border-yellow-500">
+                <div className="bg-yellow-50 rounded-lg p-3 md:p-4 border-l-4 border-yellow-500">
                   <div className="flex items-center space-x-2">
-                    <AlertCircle className="w-5 h-5 text-yellow-600" />
-                    <p className="text-sm text-yellow-800 font-medium">Waiting for admin response...</p>
+                    <AlertCircle className="w-4 h-4 md:w-5 md:h-5 text-yellow-600" />
+                    <p className="text-xs md:text-sm text-yellow-800 font-medium">Waiting for admin response...</p>
                   </div>
                 </div>
               )}
@@ -298,28 +298,28 @@ export default function HostelDashboard() {
     const remainingAmount = totalFee - paymentData.paidAmount;
 
     return (
-      <div className="space-y-6">
-        <h1 className="text-3xl font-bold text-gray-800">Payment Details</h1>
+      <div className="space-y-4 md:space-y-6">
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-800">Payment Details</h1>
 
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <div className="mb-6">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4 text-left">Set Your Total Fee</h3>
-            <div className="bg-blue-50 rounded-lg p-4">
-              <label className="block text-sm font-semibold text-gray-700 mb-2 text-left">Total Fee Amount (₹)</label>
+        <div className="bg-white rounded-lg shadow-md p-4 md:p-6">
+          <div className="mb-4 md:mb-6">
+            <h3 className="text-base md:text-lg font-semibold text-gray-800 mb-3 md:mb-4 text-left">Set Your Total Fee</h3>
+            <div className="bg-blue-50 rounded-lg p-3 md:p-4">
+              <label className="block text-xs md:text-sm font-semibold text-gray-700 mb-2 text-left">Total Fee Amount (₹)</label>
               <input
                 type="number"
                 value={totalFee}
                 onChange={(e) => setTotalFee(Number(e.target.value))}
-                className="w-full px-4 py-3 text-black border-2 border-blue-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg font-semibold"
+                className="w-full px-3 md:px-4 py-2 md:py-3 text-black border-2 border-blue-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base md:text-lg font-semibold"
                 placeholder="Enter total fee"
               />
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-            <div className="bg-blue-50 rounded-lg p-6 border-l-4 border-blue-600">
-              <h3 className="text-lg font-semibold text-gray-800 mb-4">Fee Summary</h3>
-              <div className="space-y-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-4 md:mb-6">
+            <div className="bg-blue-50 rounded-lg p-4 md:p-6 border-l-4 border-blue-600">
+              <h3 className="text-base md:text-lg font-semibold text-gray-800 mb-3 md:mb-4">Fee Summary</h3>
+              <div className="space-y-2 md:space-y-3 text-sm md:text-base">
                 <div className="flex justify-between">
                   <span className="text-gray-600">Total Fee:</span>
                   <span className="font-bold text-gray-800">₹{totalFee}</span>
@@ -328,28 +328,28 @@ export default function HostelDashboard() {
                   <span className="text-gray-600">Paid Amount:</span>
                   <span className="font-bold text-green-600">₹{paymentData.paidAmount}</span>
                 </div>
-                <div className="border-t pt-3 flex justify-between">
+                <div className="border-t pt-2 md:pt-3 flex justify-between">
                   <span className="text-gray-600 font-semibold">Remaining:</span>
                   <span className="font-bold text-red-600">₹{remainingAmount}</span>
                 </div>
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-gray-800 mb-4">Payment Progress</h3>
-              <div className="space-y-3">
-                <div className="flex justify-between text-sm">
+            <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-lg p-4 md:p-6">
+              <h3 className="text-base md:text-lg font-semibold text-gray-800 mb-3 md:mb-4">Payment Progress</h3>
+              <div className="space-y-2 md:space-y-3">
+                <div className="flex justify-between text-xs md:text-sm">
                   <span className="text-gray-600">Progress</span>
                   <span className="font-semibold text-gray-800">
                     {totalFee > 0 ? ((paymentData.paidAmount / totalFee) * 100).toFixed(0) : 0}%
                   </span>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-4">
+                <div className="w-full bg-gray-200 rounded-full h-3 md:h-4">
                   <div
-                    className="bg-gradient-to-r from-green-500 to-green-600 h-4 rounded-full transition-all duration-500 flex items-center justify-end pr-2"
+                    className="bg-gradient-to-r from-green-500 to-green-600 h-3 md:h-4 rounded-full transition-all duration-500 flex items-center justify-end pr-1 md:pr-2"
                     style={{ width: `${totalFee > 0 ? (paymentData.paidAmount / totalFee) * 100 : 0}%` }}
                   >
-                    <span className="text-xs text-white font-bold">
+                    <span className="text-[10px] md:text-xs text-white font-bold">
                       {totalFee > 0 ? ((paymentData.paidAmount / totalFee) * 100).toFixed(0) : 0}%
                     </span>
                   </div>
@@ -358,14 +358,14 @@ export default function HostelDashboard() {
             </div>
           </div>
 
-          <div className="bg-gray-50 rounded-lg p-6">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4">Make Payment</h3>
-            <div className="space-y-4">
+          <div className="bg-gray-50 rounded-lg p-4 md:p-6">
+            <h3 className="text-base md:text-lg font-semibold text-gray-800 mb-3 md:mb-4">Make Payment</h3>
+            <div className="space-y-3 md:space-y-4">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">Amount to Pay</label>
+                <label className="block text-xs md:text-sm font-semibold text-gray-700 mb-2">Amount to Pay</label>
                 <input
                   type="number"
-                  className="w-full px-4 text-black py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  className="w-full px-3 md:px-4 text-black py-2 text-sm md:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                   placeholder="Enter amount"
                   max={remainingAmount}
                   value={paymentData.paidAmount}
@@ -374,8 +374,8 @@ export default function HostelDashboard() {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">Payment Method</label>
-                <select className="w-full px-4 text-black py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                <label className="block text-xs md:text-sm font-semibold text-gray-700 mb-2">Payment Method</label>
+                <select className="w-full px-3 md:px-4 text-black py-2 text-sm md:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
                   <option>UPI</option>
                   <option>Credit/Debit Card</option>
                   <option>Net Banking</option>
@@ -385,7 +385,7 @@ export default function HostelDashboard() {
 
               <button
                 onClick={handleSubmit}
-                className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition-all duration-200">
+                className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 md:py-3 px-4 md:px-6 text-sm md:text-base rounded-lg shadow-lg transition-all duration-200">
                 Proceed to Pay
               </button>
             </div>
@@ -441,25 +441,25 @@ export default function HostelDashboard() {
 
 
     return (
-      <div className="space-y-6">
-        <h1 className="text-3xl font-bold text-gray-800">Submit Query</h1>
+      <div className="space-y-4 md:space-y-6">
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-800">Submit Query</h1>
 
-        <div className="bg-white rounded-lg shadow-md p-6 space-y-6 text-black text-left">
+        <div className="bg-white rounded-lg shadow-md p-4 md:p-6 space-y-4 md:space-y-6 text-black text-left">
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">Query Subject</label>
+            <label className="block text-xs md:text-sm font-semibold text-gray-700 mb-2">Query Subject</label>
             <input
               type="text"
               name='querySubject'
               value={query.querySubject}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              className="w-full px-3 md:px-4 py-2 text-sm md:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
               placeholder="Enter subject"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">Query Type</label>
-            <select className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+            <label className="block text-xs md:text-sm font-semibold text-gray-700 mb-2">Query Type</label>
+            <select className="w-full px-3 md:px-4 py-2 text-sm md:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
               name='queryType'
               value={query.queryType}
               onChange={handleChange}
@@ -473,21 +473,21 @@ export default function HostelDashboard() {
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">Describe Your Query</label>
+            <label className="block text-xs md:text-sm font-semibold text-gray-700 mb-2">Describe Your Query</label>
             <textarea
               name='queryDescription'
               value={query.queryDescription}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent h-40"
+              className="w-full px-3 md:px-4 py-2 text-sm md:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent h-32 md:h-40"
               placeholder="Please describe your query in detail..."
             ></textarea>
           </div>
 
           <button
             onClick={handleQuerySubmit}
-            className="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition-all duration-200 flex items-center justify-center space-x-2"
+            className="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 md:py-3 px-4 md:px-6 text-sm md:text-base rounded-lg shadow-lg transition-all duration-200 flex items-center justify-center space-x-2"
           >
-            <MessageSquare className="w-5 h-5" />
+            <MessageSquare className="w-4 h-4 md:w-5 md:h-5" />
             <span>Submit Query</span>
           </button>
         </div>
@@ -499,7 +499,7 @@ export default function HostelDashboard() {
     <div className="bg-gray-100 min-h-screen">
       <Sidebar />
 
-      <div className="md:ml-64 p-8">
+      <div className="md:ml-64 p-4 md:p-8">
         {activeTab === 'home' && <HomePage />}
         {activeTab === 'details' && <DetailsPage setActiveTab={setActiveTab} />}
         {activeTab === 'payment' && <PaymentPage />}

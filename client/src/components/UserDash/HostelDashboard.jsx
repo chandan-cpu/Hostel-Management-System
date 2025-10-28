@@ -499,7 +499,7 @@ export default function HostelDashboard() {
     <div className="bg-gray-100 min-h-screen">
       <Sidebar />
 
-      <div className="ml-64 p-8">
+      <div className="md:ml-64 p-8">
         {activeTab === 'home' && <HomePage />}
         {activeTab === 'details' && <DetailsPage setActiveTab={setActiveTab} />}
         {activeTab === 'payment' && <PaymentPage />}

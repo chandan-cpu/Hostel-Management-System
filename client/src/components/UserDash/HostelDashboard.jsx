@@ -18,6 +18,8 @@ export default function HostelDashboard() {
 
   const Sidebar = () => {
     const [studentInfo, setStudentInfo] = useState({});
+    const [isScrolled, setIsScrolled] = useState(false);
+
     const fetchData = async () => {
       const userstr = localStorage.getItem('user');
       if (!userstr) {
@@ -34,6 +36,13 @@ export default function HostelDashboard() {
 
     useEffect(() => {
       fetchData();
+      
+      const handleScroll = () => {
+        setIsScrolled(window.scrollY > 50);
+      };
+
+      window.addEventListener('scroll', handleScroll);
+      return () => window.removeEventListener('scroll', handleScroll);
     }, [])
 
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -44,7 +53,14 @@ export default function HostelDashboard() {
 
     return (
       <>
-        <button onClick={toggleSidebar} className=' md:hidden w-10 h-10 fixed top-4 left-4 z-50 bg-blue-800 p-2 rounded-lg'> <Menu size={24} className="w-6 h-6" /></button>
+        <button 
+          onClick={toggleSidebar} 
+          className={`md:hidden w-10 h-10 fixed top-4 left-4 z-50 bg-blue-800 p-2 rounded-lg transition-opacity duration-300 ${
+            isScrolled ? 'opacity-0 pointer-events-none' : 'opacity-100'
+          }`}
+        >
+          <Menu size={24} className="w-6 h-6" />
+        </button>
         <div className={`w-64 bg-gradient-to-b from-blue-900 to-blue-800 text-white h-screen fixed left-0 top-0 shadow-2xl
     transform transition-transform duration-300 z-40
     ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} 
@@ -107,11 +123,11 @@ export default function HostelDashboard() {
 
 
     return (
-      <div className="flex flex-col space-y-6 items-start absolute top-7 left-0 w-full md:ml-64 p-8">
+      <div className="flex flex-col space-y-6 items-start absolute top-7 left-0 right-0 md:ml-64 p-8">
         <h1 className="text-3xl font-bold text-gray-800">Welcome Back, {studentInfo.name}!</h1>
 
-        <div className="flex flex-wrap gap-6 text-left w-full">
-              <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-blue-600 w-full md:w-96">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+          <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-blue-600">
             <div className="flex items-center space-x-3 mb-4">
               <User className="w-8 h-8 text-blue-600" />
               <h2 className="text-xl font-semibold text-gray-800">Personal Information</h2>
@@ -124,7 +140,7 @@ export default function HostelDashboard() {
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-green-600 w-full md:w-80">
+          <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-green-600">
             <div className="flex items-center space-x-3 mb-4">
               <DollarSign className="w-8 h-8 text-green-600" />
               <h2 className="text-xl font-semibold text-gray-800">Payment Status</h2>

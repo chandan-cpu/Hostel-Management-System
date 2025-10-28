@@ -114,10 +114,10 @@ const DetailsPage = ({ setActiveTab }) => {
 
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-6 ">
             <h1 className="text-3xl font-bold text-gray-800">Fill All Details</h1>
             <div className="bg-white rounded-lg shadow-md p-6 space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
                     <div className='text-left'>
                         <label className="block text-sm font-semibold text-gray-700 mb-2">Address</label>
                         <input
@@ -211,7 +211,7 @@ const DetailsPage = ({ setActiveTab }) => {
                         Room Availability Calendar
                     </h3>
 
-                    <div className="grid grid-cols-3 gap-4 mb-6">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                         <div className="bg-green-50 rounded-lg p-4 flex items-center space-x-4 border-2 border-green-500">
                             <div className="w-8 h-8 rounded-full bg-green-500"></div>
                             <div>

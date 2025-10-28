@@ -114,55 +114,55 @@ const DetailsPage = ({ setActiveTab }) => {
 
 
     return (
-        <div className="space-y-6 ">
-            <h1 className="text-3xl font-bold text-gray-800">Fill All Details</h1>
-            <div className="bg-white rounded-lg shadow-md p-6 space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+        <div className="space-y-4 md:space-y-6">
+            <h1 className="text-2xl md:text-3xl font-bold text-gray-800">Fill All Details</h1>
+            <div className="bg-white rounded-lg shadow-md p-4 md:p-6 space-y-4 md:space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 w-full">
                     <div className='text-left'>
-                        <label className="block text-sm font-semibold text-gray-700 mb-2">Address</label>
+                        <label className="block text-xs md:text-sm font-semibold text-gray-700 mb-2">Address</label>
                         <input
                             type="text"
                             name='address'
 
                             value={formData.address}
                             onChange={handleFormChange}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black text-left"
+                            className="w-full px-3 md:px-4 py-2 text-sm md:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black text-left"
 
                             placeholder="Enter your address"
                         />
                     </div>
 
                     <div className='text-left'>
-                        <label className="block text-sm font-semibold text-gray-700 mb-2">Guardian Name</label>
+                        <label className="block text-xs md:text-sm font-semibold text-gray-700 mb-2">Guardian Name</label>
                         <input
                             type="text"
                             name="guardianName"
                             value={formData.guardianName}
                             onChange={handleFormChange}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black text-left"
+                            className="w-full px-3 md:px-4 py-2 text-sm md:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black text-left"
                             placeholder="Enter guardian name"
                         />
                     </div>
 
                     <div className='text-left'>
-                        <label className="block text-sm font-semibold text-gray-700 mb-2">Guardian Contact</label>
+                        <label className="block text-xs md:text-sm font-semibold text-gray-700 mb-2">Guardian Contact</label>
                         <input
                             type="tel"
                             name="guardianContact"
                             value={formData.guardianContact}
                             onChange={handleFormChange}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black text-left"
+                            className="w-full px-3 md:px-4 py-2 text-sm md:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black text-left"
                             placeholder="Enter contact number"
                         />
                     </div>
 
                     <div className='text-left'>
-                        <label className="block text-sm font-semibold text-gray-700 mb-2">Course</label>
+                        <label className="block text-xs md:text-sm font-semibold text-gray-700 mb-2">Course</label>
                         <select
                             name="course"
                             value={formData.course}
                             onChange={handleFormChange}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black text-left"
+                            className="w-full px-3 md:px-4 py-2 text-sm md:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black text-left"
                         >
                             <option value="">Select Course</option>
                             <option value="B.Tech">B.Tech</option>
@@ -174,12 +174,12 @@ const DetailsPage = ({ setActiveTab }) => {
                     </div>
 
                     <div className='text-left'>
-                        <label className="block text-sm font-semibold text-gray-700 mb-2">Year</label>
+                        <label className="block text-xs md:text-sm font-semibold text-gray-700 mb-2">Year</label>
                         <select
                             name="year"
                             value={formData.year}
                             onChange={handleFormChange}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black text-left"
+                            className="w-full px-3 md:px-4 py-2 text-sm md:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black text-left"
                         >
                             <option value="">Select Year</option>
                             <option value="1">1st Year</option>
@@ -190,12 +190,12 @@ const DetailsPage = ({ setActiveTab }) => {
                     </div>
 
                     <div className='text-left'>
-                        <label className="block text-sm font-semibold text-gray-700 mb-2">Gender</label>
+                        <label className="block text-xs md:text-sm font-semibold text-gray-700 mb-2">Gender</label>
                         <select
                             name="gender"
                             value={formData.gender}
                             onChange={handleFormChange}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black text-left"
+                            className="w-full px-3 md:px-4 py-2 text-sm md:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black text-left"
                         >
                             <option value="">Select Gender</option>
                             <option value="Male">Male</option>
@@ -205,42 +205,42 @@ const DetailsPage = ({ setActiveTab }) => {
                     </div>
                 </div>
 
-                <div className="border-t pt-6">
-                    <h3 className="text-xl font-semibold text-gray-800 mb-4 flex items-center">
-                        <Calendar className="w-5 h-5 mr-2" />
+                <div className="border-t pt-4 md:pt-6">
+                    <h3 className="text-lg md:text-xl font-semibold text-gray-800 mb-3 md:mb-4 flex items-center">
+                        <Calendar className="w-4 h-4 md:w-5 md:h-5 mr-2" />
                         Room Availability Calendar
                     </h3>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                        <div className="bg-green-50 rounded-lg p-4 flex items-center space-x-4 border-2 border-green-500">
-                            <div className="w-8 h-8 rounded-full bg-green-500"></div>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 mb-4 md:mb-6">
+                        <div className="bg-green-50 rounded-lg p-3 md:p-4 flex items-center space-x-3 md:space-x-4 border-2 border-green-500">
+                            <div className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-green-500"></div>
                             <div>
-                                <p className="font-semibold text-gray-800">Available</p>
-                                <p className="text-sm text-gray-600">{availableRooms} rooms</p>
+                                <p className="text-sm md:text-base font-semibold text-gray-800">Available</p>
+                                <p className="text-xs md:text-sm text-gray-600">{availableRooms} rooms</p>
                             </div>
                         </div>
-                        <div className="bg-yellow-50 rounded-lg p-4 flex items-center space-x-4 border-2 border-yellow-500">
-                            <div className="w-8 h-8 rounded-full bg-yellow-500"></div>
+                        <div className="bg-yellow-50 rounded-lg p-3 md:p-4 flex items-center space-x-3 md:space-x-4 border-2 border-yellow-500">
+                            <div className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-yellow-500"></div>
                             <div>
-                                <p className="font-semibold text-gray-800">Partially Full</p>
-                                <p className="text-sm text-gray-600">{partialRooms} rooms</p>
+                                <p className="text-sm md:text-base font-semibold text-gray-800">Partially Full</p>
+                                <p className="text-xs md:text-sm text-gray-600">{partialRooms} rooms</p>
                             </div>
                         </div>
-                        <div className="bg-red-50 rounded-lg p-4 flex items-center space-x-4 border-2 border-red-500">
-                            <div className="w-8 h-8 rounded-full bg-red-500"></div>
+                        <div className="bg-red-50 rounded-lg p-3 md:p-4 flex items-center space-x-3 md:space-x-4 border-2 border-red-500">
+                            <div className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-red-500"></div>
                             <div>
-                                <p className="font-semibold text-gray-800">Full</p>
-                                <p className="text-sm text-gray-600">{fullRooms} rooms</p>
+                                <p className="text-sm md:text-base font-semibold text-gray-800">Full</p>
+                                <p className="text-xs md:text-sm text-gray-600">{fullRooms} rooms</p>
                             </div>
                         </div>
                     </div>
 
-                    <div className="bg-gray-50 rounded-lg p-6">
-                        <h4 className="font-semibold text-gray-800 mb-4">Select Your Room (Click on available rooms)</h4>
+                    <div className="bg-gray-50 rounded-lg p-4 md:p-6">
+                        <h4 className="text-sm md:text-base font-semibold text-gray-800 mb-3 md:mb-4">Select Your Room (Click on available rooms)</h4>
 
                         <div>
-                            <label className="block text-sm font-semibold text-gray-700 mb-2">Select Hostel</label>
-                            <select className='text-black'
+                            <label className="block text-xs md:text-sm font-semibold text-gray-700 mb-2">Select Hostel</label>
+                            <select className='text-black w-full px-3 md:px-4 py-2 text-sm md:text-base border border-gray-300 rounded-lg'
                                 value={selectedHostel}
                                 onChange={handleHostelChange}>
                                     <option value="">-- Select Hostel --</option>
@@ -251,14 +251,14 @@ const DetailsPage = ({ setActiveTab }) => {
                                 ))}
                             </select>
                         </div>
-                        <div className="grid grid-cols-5 md:grid-cols-10 gap-3 mt-5">
+                        <div className="grid grid-cols-5 md:grid-cols-10 gap-2 md:gap-3 mt-4 md:mt-5">
                             {filteredRooms.map((room) => (
                                 <button
                                     key={room.roomNumber}
                                     onClick={() => handleRoomSelect(room)}
                                     disabled={room.status === 'full'}
                                     className={`${getRoomColor(room.status)} ${selectedRoom === room.roomNumber ? `ring-4 ring-blue-400 ${getRoomBorderColor(room.status)}` : ''
-                                        } text-white font-bold py-3 px-2 rounded-lg transition-all duration-200 text-sm border-2 ${getRoomBorderColor(room.status)}`}
+                                        } text-white font-bold py-2 md:py-3 px-1 md:px-2 rounded-lg transition-all duration-200 text-xs md:text-sm border-2 ${getRoomBorderColor(room.status)}`}
                                 >
                                     {room.roomNumber}
                                 </button>
@@ -266,14 +266,14 @@ const DetailsPage = ({ setActiveTab }) => {
                         </div>
                     </div>
 
-                    <div className="mt-6 text-left">
-                        <label className="block text-sm font-semibold text-gray-700 mb-2">Selected Room</label>
+                    <div className="mt-4 md:mt-6 text-left">
+                        <label className="block text-xs md:text-sm font-semibold text-gray-700 mb-2">Selected Room</label>
                         <input
                             type="text"
                             name="appliedRoom"
                             value={formData.appliedRoom}
                             onChange={handleFormChange}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-gray-100 text-black text-left"
+                            className="w-full px-3 md:px-4 py-2 text-sm md:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-gray-100 text-black text-left"
                             placeholder="Select a room from calendar above"
                             readOnly
                         />
@@ -282,9 +282,9 @@ const DetailsPage = ({ setActiveTab }) => {
 
                 <button
                     onClick={handleFormSubmit}
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition-all duration-200 flex items-center justify-center space-x-2"
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 md:py-3 px-4 md:px-6 text-sm md:text-base rounded-lg shadow-lg transition-all duration-200 flex items-center justify-center space-x-2"
                 >
-                    <CheckCircle className="w-5 h-5" />
+                    <CheckCircle className="w-4 h-4 md:w-5 md:h-5" />
                     <span>Submit Details</span>
                 </button>
             </div>
